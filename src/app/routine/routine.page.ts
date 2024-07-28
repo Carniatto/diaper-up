@@ -2,7 +2,7 @@ import { RoutineService } from './../routine-service';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel, IonItem, IonCheckbox, IonButtons, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel, IonItem, IonCheckbox, IonButtons, IonIcon, IonModal, IonDatetimeButton, IonDatetime } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { save } from "ionicons/icons";
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './routine.page.html',
   styleUrls: ['./routine.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class RoutinePage {
 

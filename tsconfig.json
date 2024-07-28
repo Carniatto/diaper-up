@@ -24,6 +24,7 @@
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "outDir": "./dist/out-tsc",
+    "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
     "target": "es2022",

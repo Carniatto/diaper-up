@@ -5,11 +5,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Routine</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime id="datetime"></ion-datetime>
+    </ng-template>
+  </ion-modal>
   <ion-item>
     <ion-label>Pee</ion-label>
     <ion-checkbox #pee slot="start"></ion-checkbox>

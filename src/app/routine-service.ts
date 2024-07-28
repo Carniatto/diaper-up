@@ -1,16 +1,28 @@
-import { Injectable, signal } from '@angular/core';
+
+import { inject, Injectable, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Firestore, collectionData, collection, addDoc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
   type DiaperRoutine = {
   hasPeed: boolean;
   hasPooped: boolean;
+  Timestamp?: [number, number]
 }
 @Injectable({
   providedIn: 'root'
 })
 export class RoutineService {
-    routines = signal<DiaperRoutine[]>([]);
+  firestore = inject(Firestore)
+  #routineColletion = collection(this.firestore, 'routines')
+  routines = toSignal(collectionData(this.#routineColletion) as Observable<DiaperRoutine[]>, {
+    initialValue: []
+  });
 
     addRoutine(routine: DiaperRoutine) {
-      this.routines.update(routines => [...routines, routine]);
+      addDoc(this.#routineColletion,{
+        ...routine,
+        Timestamp: [Date.now(), 0]
+      });
     }
 }
