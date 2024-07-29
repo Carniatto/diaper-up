@@ -4,10 +4,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Firestore, collectionData, collection, addDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
-  type DiaperRoutine = {
+type DiaperRoutine = {
   hasPeed: boolean;
   hasPooped: boolean;
-  Timestamp?: [number, number]
+  timestamp: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -19,10 +19,9 @@ export class RoutineService {
     initialValue: []
   });
 
-    addRoutine(routine: DiaperRoutine) {
-      addDoc(this.#routineColletion,{
-        ...routine,
-        Timestamp: [Date.now(), 0]
-      });
-    }
+  addRoutine(routine: DiaperRoutine) {
+    addDoc(this.#routineColletion, {
+      ...routine,
+    });
+  }
 }

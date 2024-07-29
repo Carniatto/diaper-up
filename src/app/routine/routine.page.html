@@ -9,7 +9,7 @@
 
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
-      <ion-datetime id="datetime"></ion-datetime>
+      <ion-datetime id="datetime" hourCycle="h24" [value]="timestamp()"></ion-datetime>
     </ng-template>
   </ion-modal>
   <ion-item>
@@ -22,7 +22,7 @@
   </ion-item>
 
   <ion-button (click)="saveRoutine(pee.checked, poop.checked)">
-    <ion-icon slot="end" name="save"></ion-icon>
+    <ion-icon slot="start" name="save"></ion-icon>
     Save
   </ion-button>
 </ion-content>
