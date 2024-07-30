@@ -22,6 +22,15 @@ export class RoutinePage {
 
   timestamp = input<string>();
 
+  poopColor = signal<number>(0);
+
+  hasPeed = signal<boolean>(false);
+
+  selectedPoopColor = computed(() => {
+    const foundPoop = this.poopButttons.find(button => button.value === this.poopColor());
+    return foundPoop !== undefined ? foundPoop : this.poopButttons[0]!;
+  });
+
   datetimePicker = viewChild(IonDatetime);
 
   diaperCount = computed(() => {
@@ -35,17 +44,74 @@ export class RoutinePage {
     }, 0);
   });
 
+  poopButttons = [
+    {
+      label: 'No Poop',
+      svg: 'assets/svg/no-poop.svg',
+      value: 0,
+      abnormal: false
+    },
+    {
+      label: 'Pale Poop',
+      svg: 'assets/svg/poop-pale-yellow.svg',
+      value: 1,
+      abnormal: true
+    },
+    {
+      label: 'Beige Poop',
+      svg: 'assets/svg/poop-beige.svg',
+      value: 2,
+      abnormal: true
+    },
+    {
+      label: 'White Poop',
+      svg: 'assets/svg/poop-white-putty.svg',
+      value: 3,
+      abnormal: true
+    },
+    {
+      label: 'Gold Poop',
+      svg: 'assets/svg/poop-gold-yellow.svg',
+      value: 4,
+      abnormal: false
+    },
+    {
+      label: 'Bronze Poop',
+      svg: 'assets/svg/poop-bronze-ocre.svg',
+      value: 5,
+      abnormal: false
+    },
+    {
+      label: 'Green Poop',
+      svg: 'assets/svg/poop-green.svg',
+      value: 6,
+      abnormal: false
+    },
+
+
+  ]
+
   constructor() {
     addIcons({ save });
 
   }
 
-  saveRoutine(pee: boolean, poop: boolean) {
-    const dateFromIonDatetime = this.datetimePicker()?.value as string; 
+  incrementPoopColor() {
+    const newPoopColor = this.poopColor() + 1;
+    if (newPoopColor >= this.poopButttons.length) {
+      return this.poopColor.set(0);
+    }
+    return this.poopColor.set(newPoopColor);
+  }
+
+  saveRoutine() {
+    const dateFromIonDatetime = this.datetimePicker()?.value as string;
     const timestamp = parseISO(dateFromIonDatetime).toUTCString();
+
     this.routineService.addRoutine({
-      hasPeed: pee,
-      hasPooped: poop,
+      hasPeed: this.hasPeed(),
+      hasPooped: this.poopColor() !== 0,
+      poopColor: this.poopColor(),
       timestamp
     });
     this.router.navigate(['/home']);

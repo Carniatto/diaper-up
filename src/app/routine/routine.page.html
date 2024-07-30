@@ -5,23 +5,37 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-datetime-button datetime="datetime"></ion-datetime-button>
+  <ion-item>
+    <ion-datetime-button datetime="datetime"></ion-datetime-button>
+  </ion-item>
 
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
-      <ion-datetime id="datetime" hourCycle="h24" [value]="timestamp()"></ion-datetime>
+      <ion-datetime
+        id="datetime"
+        hourCycle="h24"
+        [value]="timestamp()"
+      ></ion-datetime>
     </ng-template>
   </ion-modal>
   <ion-item>
-    <ion-label>Pee</ion-label>
-    <ion-checkbox #pee slot="start"></ion-checkbox>
-  </ion-item>
-  <ion-item>
-    <ion-label>Poo</ion-label>
-    <ion-checkbox #poop slot="start"></ion-checkbox>
+    @let selected = selectedPoopColor();
+    <ion-button
+      class="icon-only-svg selected"
+      shape="round"
+      fill="clear"
+      (click)="incrementPoopColor()"
+    >
+      <img [src]="selected.svg" [alt]="selected.label" />
+    </ion-button>
   </ion-item>
 
-  <ion-button (click)="saveRoutine(pee.checked, poop.checked)">
+  <ion-item>
+    <ion-label>Pee</ion-label>
+    <ion-checkbox slot="start" (ionChange)="hasPeed.set(true)"></ion-checkbox>
+  </ion-item>
+
+  <ion-button (click)="saveRoutine()">
     <ion-icon slot="start" name="save"></ion-icon>
     Save
   </ion-button>

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 type DiaperRoutine = {
   hasPeed: boolean;
   hasPooped: boolean;
+  poopColor: number;
   timestamp: string;
 }
 @Injectable({
