@@ -2,6 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonFooter } from '@ionic/angular/standalone';
 import { RoutineService } from '../routine-service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ import { RoutineService } from '../routine-service';
 })
 export class HomePage {
   routineService = inject(RoutineService);
+  userservice = inject(UserService);
   totalDiapers = computed(() => {
     return this.routineService.routines().filter(r => r.hasPeed || r.hasPooped).length;
   });

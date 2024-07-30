@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { toSignal} from '@angular/core/rxjs-interop'
+import { toSignal } from '@angular/core/rxjs-interop'
 import { IonApp, IonRouterOutlet, IonContent } from '@ionic/angular/standalone';
 import { Database, ref, list } from "@angular/fire/database";
 import { JsonPipe } from '@angular/common';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +13,8 @@ import { collection, collectionData, Firestore } from '@angular/fire/firestore';
   imports: [IonContent, IonApp, IonRouterOutlet, JsonPipe],
 })
 export class AppComponent {
-  
+  constructor() {
+    inject(UserService).init();
+  }
+
 }

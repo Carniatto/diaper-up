@@ -1,21 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Home
-    </ion-title>
+    <ion-title>Diaper Up</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div id="container">
-   <h1>Welcome to Diaper Up</h1>
-   <ion-button [routerLink]="['/routine']" fill="clear" shape="round">
-    Start Routine
-   </ion-button>
+    <h1>Welcome to Diaper Up</h1>
+    <ion-button [routerLink]="['/routine']" shape="round">
+      Start Routine
+    </ion-button>
+    <br />
+    <br />
+    <hr style="background: white" />
+    <h2>Total of diapers used: {{ totalDiapers() }}</h2>
+    <h2>Total of pee: {{ totalPeed() }}</h2>
   </div>
 </ion-content>
-
-<ion-footer>
-  Total diapers used today: {{totalDiapers()}} <br>
-  Total pee diapers: {{totalPeed()}} <br>
-</ion-footer>
