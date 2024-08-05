@@ -1,3 +1,4 @@
+import { IonPopover } from '@ionic/angular/standalone';
 import { RoutineService } from './../routine-service';
 import { Component, OnInit, computed, inject, input, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -31,6 +32,8 @@ export class RoutinePage {
   hasPeed = signal<boolean>(false);
 
   temperature = signal<number>(0);
+
+
 
   selectedPoopColor = computed(() => {
     const foundPoop = this.poopButttons.find(button => button.value === this.poopColor());
@@ -108,7 +111,6 @@ export class RoutinePage {
 
   constructor() {
     addIcons({ save });
-
   }
 
   saveRoutine() {

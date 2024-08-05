@@ -6,13 +6,6 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <h1>Welcome to Diaper Up</h1>
-    <ion-button [routerLink]="['/routine']" shape="round">
-      Start Routine
-    </ion-button>
-    <br />
-    <br />
-    <hr style="background: white" />
     <h1>Today's stats</h1>
     <div>
       <img src="assets/svg/diaper-color.svg" alt="diaper-color" />
@@ -22,5 +15,8 @@
       <img src="assets/svg/pee-full.svg" alt="diaper-color" />
       <h2>x {{totalPeed()}}</h2>
     </div>
+    <ion-button [routerLink]="['/routine']" shape="round">
+      Start Routine
+    </ion-button>
   </div>
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, computed, effect, output, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, output, signal, viewChild } from '@angular/core';
 import { IonButton, IonPopover, IonContent, IonRange } from "@ionic/angular/standalone";
 
 @Component({
@@ -13,10 +13,22 @@ export class SliderButtonComponent {
 
   selectionChange = output<number>();
 
+  popover = viewChild(IonPopover);
+
   constructor() {
     effect(() => {
       this.selectionChange.emit(this.temperature());
     });
+
+    this.destroyRef.onDestroy(() => {
+      this.popover()?.dismiss();
+    })
+  }
+
+  destroyRef = inject(DestroyRef);
+
+  ionViewWillLeave() {
+
   }
 
   temperatureIcon = computed(() => {
