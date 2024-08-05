@@ -7,13 +7,14 @@ import { addIcons } from 'ionicons';
 import { save } from "ionicons/icons";
 import { Router } from '@angular/router';
 import { format, parseISO } from 'date-fns';
+import { SelectButtonComponent } from "../select-button/select-button.component";
 
 @Component({
   selector: 'app-routine',
   templateUrl: './routine.page.html',
   styleUrls: ['./routine.page.scss'],
   standalone: true,
-  imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, SelectButtonComponent]
 })
 export class RoutinePage {
 
@@ -47,7 +48,7 @@ export class RoutinePage {
   poopButttons = [
     {
       label: 'No Poop',
-      svg: 'assets/svg/no-poop.svg',
+      svg: 'assets/svg/no-poop-black.svg',
       value: 0,
       abnormal: false
     },
@@ -90,18 +91,30 @@ export class RoutinePage {
 
 
   ]
+  peeButttons = [
+    {
+      label: 'No Pee',
+      svg: 'assets/svg/pee-empty.svg',
+      value: 0,
+      abnormal: false
+    },
+    {
+      label: 'Half Pee',
+      svg: 'assets/svg/pee-half.svg',
+      value: 1,
+      abnormal: true
+    },
+    {
+      label: 'Full Pee',
+      svg: 'assets/svg/pee-full.svg',
+      value: 2,
+      abnormal: true
+    },
+  ]
 
   constructor() {
     addIcons({ save });
 
-  }
-
-  incrementPoopColor() {
-    const newPoopColor = this.poopColor() + 1;
-    if (newPoopColor >= this.poopButttons.length) {
-      return this.poopColor.set(0);
-    }
-    return this.poopColor.set(newPoopColor);
   }
 
   saveRoutine() {

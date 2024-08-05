@@ -1,0 +1,9 @@
+@let selected = selectedValue();
+<ion-button
+  class="icon-only-svg selected"
+  shape="round"
+  fill="clear"
+  (click)="nextValue()"
+>
+  <img [src]="selected.svg" [alt]="selected.label" />
+</ion-button>

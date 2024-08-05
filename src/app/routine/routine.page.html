@@ -1,13 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>routine</ion-title>
+    <ion-title>Routine</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item>
-    <ion-datetime-button datetime="datetime"></ion-datetime-button>
-  </ion-item>
+  <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
@@ -18,22 +16,10 @@
       ></ion-datetime>
     </ng-template>
   </ion-modal>
-  <ion-item>
-    @let selected = selectedPoopColor();
-    <ion-button
-      class="icon-only-svg selected"
-      shape="round"
-      fill="clear"
-      (click)="incrementPoopColor()"
-    >
-      <img [src]="selected.svg" [alt]="selected.label" />
-    </ion-button>
-  </ion-item>
 
-  <ion-item>
-    <ion-label>Pee</ion-label>
-    <ion-checkbox slot="start" (ionChange)="hasPeed.set(true)"></ion-checkbox>
-  </ion-item>
+  <app-select-button [list]="poopButttons" />
+
+  <app-select-button [list]="peeButttons" />
 
   <ion-button (click)="saveRoutine()">
     <ion-icon slot="start" name="save"></ion-icon>
