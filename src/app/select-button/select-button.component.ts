@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, output, signal, effect } from '@angular/core';
 import { IonButton } from "@ionic/angular/standalone";
 
 type ButtonDescriptor = {
@@ -16,6 +16,13 @@ type ButtonDescriptor = {
 })
 export class SelectButtonComponent {
   selected = signal<number>(0);
+  selectionChange = output<number>();
+
+  constructor() {
+    effect(() => {
+      this.selectionChange.emit(this.selected());
+    });
+  }
 
   selectedValue = computed(() => {
     return this.list()[this.selected()];

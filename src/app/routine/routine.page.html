@@ -17,9 +17,15 @@
     </ng-template>
   </ion-modal>
 
-  <app-select-button [list]="poopButttons" />
+  <app-select-button
+    [list]="poopButttons"
+    (selectionChange)="poopColor.set($event)"
+  />
 
-  <app-select-button [list]="peeButttons" />
+  <app-select-button
+    [list]="peeButttons"
+    (selectionChange)="peeAmount.set($event)"
+  />
 
   <ion-button (click)="saveRoutine()">
     <ion-icon slot="start" name="save"></ion-icon>

@@ -10,6 +10,7 @@ type DiaperRoutine = {
   hasPeed: boolean;
   hasPooped: boolean;
   poopColor: number;
+  peeAmount: number;
   timestamp: string;
 }
 @Injectable({

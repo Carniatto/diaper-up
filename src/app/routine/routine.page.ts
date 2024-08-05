@@ -25,6 +25,8 @@ export class RoutinePage {
 
   poopColor = signal<number>(0);
 
+  peeAmount = signal<number>(0);
+
   hasPeed = signal<boolean>(false);
 
   selectedPoopColor = computed(() => {
@@ -33,17 +35,6 @@ export class RoutinePage {
   });
 
   datetimePicker = viewChild(IonDatetime);
-
-  diaperCount = computed(() => {
-    return this.routineService.routines().filter(routine => routine.hasPeed || routine.hasPooped
-    ).length;
-  });
-
-  peeCount = computed(() => {
-    return this.routineService.routines().reduce((acc, routine) => {
-      return routine.hasPeed ? acc + 1 : acc;
-    }, 0);
-  });
 
   poopButttons = [
     {
@@ -122,9 +113,10 @@ export class RoutinePage {
     const timestamp = parseISO(dateFromIonDatetime).toUTCString();
 
     this.routineService.addRoutine({
-      hasPeed: this.hasPeed(),
-      hasPooped: this.poopColor() !== 0,
+      hasPooped: this.poopColor() > 0,
       poopColor: this.poopColor(),
+      hasPeed: this.peeAmount() > 0,
+      peeAmount: this.peeAmount(),
       timestamp
     });
     this.router.navigate(['/home']);
