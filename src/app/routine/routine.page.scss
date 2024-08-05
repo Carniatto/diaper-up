@@ -1,0 +1,25 @@
+ion-datetime-button {
+  margin-top: 32px;
+}
+.button-dial {
+  background: rgb(195, 174, 146);
+  height: 20rem;
+  width: 20rem;
+  padding: 52px 16px 16px;
+  border-radius: 50%;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(2, auto);
+  justify-items: center;
+  align-items: center;
+  margin: 32px auto;
+}
+
+app-slider-button {
+  grid-column: 1 / span 2;
+}
+
+ion-button {
+  display: block;
+  margin: auto 32px;
+}

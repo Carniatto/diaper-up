@@ -1,0 +1,29 @@
+@let tempIcon = temperatureIcon();
+<ion-button id="tempBtn" class="icon-only-svg" shape="round" fill="clear">
+  <img [src]="tempIcon" alt="temperature" />
+</ion-button>
+<ion-popover
+  trigger="tempBtn"
+  side="bottom"
+  alignment="center"
+  (ionPopoverWillPresent)="temperature.set(37)"
+  [keepContentsMounted]="true"
+>
+  <ng-template>
+    <ion-content class="ion-padding">
+      <ion-range
+        aria-label="temperature slider"
+        [ticks]="true"
+        [snaps]="true"
+        [pin]="true"
+        [pinFormatter]="tempFormatter"
+        [step]="1"
+        [min]="360"
+        [max]="380"
+        [value]="temperature() * 10"
+        (ionChange)="temperature.set($any($event.detail.value) / 10)"
+      />
+      <div class="ion-text-center">{{ temperature() }}</div>
+    </ion-content>
+  </ng-template>
+</ion-popover>

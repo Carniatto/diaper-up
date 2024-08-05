@@ -1,0 +1,13 @@
+ion-button.icon-only-svg {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  --padding-end: 12px;
+  --padding-start: 12px;
+  transition: 0.4s;
+  background-color: #fff;
+}
+
+ion-button.icon-only-svg:hover {
+  transform: scale(1.05);
+}

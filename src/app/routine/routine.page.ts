@@ -8,13 +8,14 @@ import { save } from "ionicons/icons";
 import { Router } from '@angular/router';
 import { format, parseISO } from 'date-fns';
 import { SelectButtonComponent } from "../select-button/select-button.component";
+import { SliderButtonComponent } from "../slider-button/slider-button.component";
 
 @Component({
   selector: 'app-routine',
   templateUrl: './routine.page.html',
   styleUrls: ['./routine.page.scss'],
   standalone: true,
-  imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, SelectButtonComponent]
+  imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, SelectButtonComponent, SliderButtonComponent]
 })
 export class RoutinePage {
 
@@ -28,6 +29,8 @@ export class RoutinePage {
   peeAmount = signal<number>(0);
 
   hasPeed = signal<boolean>(false);
+
+  temperature = signal<number>(0);
 
   selectedPoopColor = computed(() => {
     const foundPoop = this.poopButttons.find(button => button.value === this.poopColor());
@@ -117,6 +120,7 @@ export class RoutinePage {
       poopColor: this.poopColor(),
       hasPeed: this.peeAmount() > 0,
       peeAmount: this.peeAmount(),
+      temperature: this.temperature(),
       timestamp
     });
     this.router.navigate(['/home']);

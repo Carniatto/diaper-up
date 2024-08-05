@@ -12,6 +12,7 @@ type DiaperRoutine = {
   poopColor: number;
   peeAmount: number;
   timestamp: string;
+  temperature: number;
 }
 @Injectable({
   providedIn: 'root'
