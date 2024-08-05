@@ -15,10 +15,18 @@ export class HomePage {
   routineService = inject(RoutineService);
   userservice = inject(UserService);
   totalDiapers = computed(() => {
-    return this.routineService.routines().filter(r => r.hasPeed || r.hasPooped).length;
+    const today = new Date()
+    today.setHours(0, 0, 0, 0);
+    return this.routineService.routines()
+      .filter(r => new Date(r.timestamp).getTime() > today.getTime())
+      .filter(r => r.hasPeed || r.hasPooped).length;
   });
   totalPeed = computed(() => {
-    return this.routineService.routines().filter(r => r.hasPeed).length;
+    const today = new Date()
+    today.setHours(0, 0, 0, 0);
+    return this.routineService.routines()
+      .filter(r => new Date(r.timestamp).getTime() > today.getTime())
+      .filter(r => r.hasPeed).length;
   });
 
 }

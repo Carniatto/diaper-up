@@ -22,7 +22,13 @@ export class RoutineService {
   userservice = inject(UserService);
   #routineColletion = collection(this.firestore, 'routines')
   // routines = await getDocs(query(this.#routineColletion, where("user", "==", this.userservice.currentUser))) as Promise<DiaperRoutine[]>;
-  routines = toSignal(collectionData(query(this.#routineColletion, where("user", "==", this.userservice.currentUser()))) as Observable<DiaperRoutine[]>, { initialValue: [] });
+  routines = toSignal(
+    collectionData(
+      query(
+        this.#routineColletion,
+        where("user", "==", this.userservice.currentUser()),
+      )
+    ) as Observable<DiaperRoutine[]>, { initialValue: [] });
 
 
   addRoutine(routine: DiaperRoutine) {
