@@ -34,11 +34,11 @@ export class SliderButtonComponent {
   temperatureIcon = computed(() => {
     if (this.temperature() < 36.5) {
       return 'assets/svg/temperature-freeze.svg';
-    } else if (this.temperature() >= 36.5 && this.temperature() < 37) {
+    } else if (this.temperature() >= 36.5 && this.temperature() < 36.8) {
       return 'assets/svg/temperature-low.svg';
-    } else if (this.temperature() === 37) {
+    } else if (this.temperature() >= 36.8 && this.temperature() <= 37.2) {
       return 'assets/svg/temperature-normal.svg';
-    } else if (this.temperature() > 37 && this.temperature() <= 37.5) {
+    } else if (this.temperature() > 37.2 && this.temperature() <= 37.5) {
       return 'assets/svg/temperature-high.svg';
     } else {
       return 'assets/svg/temperature-burn.svg';
