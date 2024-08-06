@@ -1,12 +1,42 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Diaper Up</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="link-btn" size="small">
+        <ion-icon slot="icon-only" name="link"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-modal id="link-modal" trigger="link-btn">
+      <ng-template>
+        <div class="wrapper">
+          <h1>Link accounts</h1>
+          <div>Your ID is:</div>
+          <div class="user-id">
+            <code>{{userservice.currentUser()}}</code>
+            <ion-button fill="clear" (click)="copyUserId()">
+              <ion-icon slot="icon-only" name="copy"></ion-icon>
+            </ion-button>
+          </div>
+          <p>Link your account to share data with your partner.</p>
+          <ion-input
+            #linkUserInput
+            fill="outline"
+            placeholder="add code"
+          ></ion-input>
+          <ion-button
+            class="link-modal-btn ion-float-right"
+            (click)="linkUser($any(linkUserInput.value))"
+            >Link</ion-button
+          >
+        </div>
+      </ng-template>
+    </ion-modal>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <h1>Today's stats</h1>
+    <div class="title">Today's stats</div>
     <div>
       <img src="assets/svg/diaper-color.svg" alt="diaper-color" />
       <h2>x {{totalDiapers()}}</h2>
@@ -15,7 +45,7 @@
       <img src="assets/svg/pee-full.svg" alt="diaper-color" />
       <h2>x {{totalPeed()}}</h2>
     </div>
-    <ion-button [routerLink]="['/routine']" shape="round">
+    <ion-button class="start-routine" [routerLink]="['/routine']" shape="round">
       Start Routine
     </ion-button>
   </div>

@@ -27,6 +27,46 @@
 }
 
 img {
-  width: 150px;
+  width: 100px;
   margin: 0 auto;
+}
+
+ion-button.start-routine {
+  margin-top: 32px;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+ion-modal#link-modal {
+  --background: #5d97ee;
+  --width: fit-content;
+  --min-width: 250px;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#link-modal .wrapper {
+  padding: 16px;
+}
+
+ion-modal#link-modal .user-id {
+  display: flex;
+  align-items: center;
+}
+
+ion-modal#link-modal code {
+  font-size: 14px;
+  line-height: 22px;
+  color: #020100;
+}
+
+ion-modal#link-modal .link-modal-btn {
+  margin-top: 16px;
 }

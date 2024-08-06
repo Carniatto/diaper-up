@@ -1,8 +1,8 @@
 
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Firestore, collectionData, collection, addDoc, query, where, getDocs } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { user } from '@angular/fire/auth';
 
@@ -22,14 +22,19 @@ export class RoutineService {
 
   userservice = inject(UserService);
   #routineColletion = collection(this.firestore, 'routines')
-  // routines = await getDocs(query(this.#routineColletion, where("user", "==", this.userservice.currentUser))) as Promise<DiaperRoutine[]>;
+
   routines = toSignal(
-    collectionData(
-      query(
-        this.#routineColletion,
-        where("user", "==", this.userservice.currentUser()),
+    this.userservice.getUserLinks().pipe(
+      switchMap(links =>
+        collectionData(
+          query(
+            this.#routineColletion,
+            where("user", "in", [this.userservice.currentUser(), ...links])
+          )
+        ) as Observable<DiaperRoutine[]>
       )
-    ) as Observable<DiaperRoutine[]>, { initialValue: [] });
+    ), { initialValue: [] }
+  );
 
 
   addRoutine(routine: DiaperRoutine) {
