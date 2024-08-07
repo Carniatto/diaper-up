@@ -13,10 +13,7 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "lib": [
-      "dom",
-      "es2020"
-    ],
+    "lib": ["dom", "es2022"],
     "module": "es2020",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,

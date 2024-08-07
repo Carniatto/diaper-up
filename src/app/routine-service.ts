@@ -1,7 +1,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Firestore, collectionData, collection, addDoc, query, where, getDocs } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, addDoc, query, where, getDocs, orderBy } from '@angular/fire/firestore';
 import { Observable, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { user } from '@angular/fire/auth';
@@ -29,7 +29,8 @@ export class RoutineService {
         collectionData(
           query(
             this.#routineColletion,
-            where("user", "in", [this.userservice.currentUser(), ...links])
+            where("user", "in", [this.userservice.currentUser(), ...links]),
+            orderBy("timestamp", "desc")
           )
         ) as Observable<DiaperRoutine[]>
       )

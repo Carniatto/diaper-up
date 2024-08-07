@@ -37,13 +37,19 @@
 <ion-content [fullscreen]="true">
   <div id="container">
     <div class="title">Today's stats</div>
-    <div>
-      <img src="assets/svg/diaper-color.svg" alt="diaper-color" />
-      <h2>x {{totalDiapers()}}</h2>
-    </div>
-    <div>
-      <img src="assets/svg/pee-full.svg" alt="diaper-color" />
-      <h2>x {{totalPeed()}}</h2>
+    <div class="content">
+      <div>
+        <img src="assets/svg/diaper-color.svg" alt="diaper-color" />
+        <h2>x {{totalDiapers()}}</h2>
+      </div>
+      <div>
+        <img src="assets/svg/pee-full.svg" alt="diaper-color" />
+        <h2>x {{totalPeed()}}</h2>
+      </div>
+      <div>
+        <img src="assets/svg/baby-bottle.svg" alt="diaper-color" />
+        <h2>Last feed: {{lastRoutine()?.timestamp| date:'H:mm'}}</h2>
+      </div>
     </div>
     <ion-button class="start-routine" [routerLink]="['/routine']" shape="round">
       Start Routine
