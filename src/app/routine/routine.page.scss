@@ -2,21 +2,26 @@ ion-datetime-button {
   margin-top: 32px;
 }
 .button-dial {
-  background: #81b6b2;
   height: 20rem;
   width: 20rem;
-  padding: 52px 16px 16px;
-  border-radius: 50%;
+  padding: 16px;
   display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-template-rows: repeat(2, auto);
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
   justify-items: center;
   align-items: center;
   margin: 32px auto;
 }
 
-app-slider-button {
-  grid-column: 1 / span 2;
+.horizontal-split {
+  grid-column: 1 / span 3;
+  border: 1px solid #145acd;
+  width: 100%;
+}
+
+.vertical-split {
+  border: 1px solid #145acd;
+  height: 100%;
 }
 
 ion-button {

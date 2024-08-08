@@ -11,8 +11,9 @@ type DiaperRoutine = {
   hasPooped: boolean;
   poopColor: number;
   peeAmount: number;
-  timestamp: string;
+  bottleAmount: number;
   temperature: number;
+  timestamp: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,9 @@ export class RoutineService {
             where("user", "in", [this.userservice.currentUser(), ...links]),
           )
         ).pipe(
-          map(routines => routines.sort((a, b) => new Date(a['timestamp']).getTime() > new Date(b['timestamp']).getTime() ? -1 : 1))
+          map(routines => routines.sort(
+            (a, b) => new Date(a['timestamp']).getTime() > new Date(b['timestamp']).getTime() ? -1 : 1
+          ))
         ) as Observable<DiaperRoutine[]>
       )
     ), { initialValue: [] }

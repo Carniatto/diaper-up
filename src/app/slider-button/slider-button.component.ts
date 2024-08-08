@@ -32,7 +32,9 @@ export class SliderButtonComponent {
   }
 
   temperatureIcon = computed(() => {
-    if (this.temperature() < 36.5) {
+    if (this.temperature() === 0) {
+      return 'assets/svg/temperature-empty.svg';
+    } else if (this.temperature() < 36.5) {
       return 'assets/svg/temperature-freeze.svg';
     } else if (this.temperature() >= 36.5 && this.temperature() < 36.8) {
       return 'assets/svg/temperature-low.svg';

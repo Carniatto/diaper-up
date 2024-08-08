@@ -34,7 +34,7 @@ export class HomePage {
   });
 
   lastRoutine = computed(() => {
-    return this.routineService.routines().at(0);
+    return this.routineService.routines().filter(r => r.bottleAmount > 0).at(0);
   });
 
   constructor() {

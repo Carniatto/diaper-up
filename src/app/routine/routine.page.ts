@@ -29,9 +29,9 @@ export class RoutinePage {
 
   peeAmount = signal<number>(0);
 
-  hasPeed = signal<boolean>(false);
-
   temperature = signal<number>(0);
+
+  bottleAmount = signal<number>(0);
 
 
 
@@ -109,6 +109,27 @@ export class RoutinePage {
     },
   ]
 
+  bottleButtons = [
+    {
+      label: 'No Bottle',
+      svg: 'assets/svg/bottle-empty.svg',
+      value: 0,
+      abnormal: false
+    },
+    {
+      label: 'Half Bottle',
+      svg: 'assets/svg/bottle-half.svg',
+      value: 1,
+      abnormal: true
+    },
+    {
+      label: 'Full Bottle',
+      svg: 'assets/svg/bottle-full.svg',
+      value: 2,
+      abnormal: true
+    },
+  ]
+
   constructor() {
     addIcons({ save });
   }
@@ -122,6 +143,7 @@ export class RoutinePage {
       poopColor: this.poopColor(),
       hasPeed: this.peeAmount() > 0,
       peeAmount: this.peeAmount(),
+      bottleAmount: this.bottleAmount(),
       temperature: this.temperature(),
       timestamp
     });

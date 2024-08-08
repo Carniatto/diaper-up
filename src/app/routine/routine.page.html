@@ -22,11 +22,17 @@
       [list]="poopButttons"
       (selectionChange)="poopColor.set($event)"
     />
+    <div class="vertical-split"></div>
     <app-select-button
       [list]="peeButttons"
       (selectionChange)="peeAmount.set($event)"
     />
-
+    <div class="horizontal-split"></div>
+    <app-select-button
+      [list]="bottleButtons"
+      (selectionChange)="bottleAmount.set($event)"
+    />
+    <div class="vertical-split"></div>
     <app-slider-button
       (selectionChange)="temperature.set($event)"
     ></app-slider-button>
