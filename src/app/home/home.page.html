@@ -48,7 +48,10 @@
       </div>
       <div>
         <img src="assets/svg/baby-bottle.svg" alt="diaper-color" />
-        <h2>Last feed: {{lastRoutine()?.timestamp| date:'H:mm'}}</h2>
+        <h2>
+          Last feed <br />
+          {{lastRoutine()?.timestamp| date:'H:mm'}}
+        </h2>
       </div>
     </div>
     <ion-button class="start-routine" [routerLink]="['/routine']" shape="round">

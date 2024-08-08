@@ -2,7 +2,7 @@
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Firestore, collectionData, collection, addDoc, query, where, getDocs, orderBy } from '@angular/fire/firestore';
-import { Observable, switchMap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { user } from '@angular/fire/auth';
 
@@ -30,8 +30,9 @@ export class RoutineService {
           query(
             this.#routineColletion,
             where("user", "in", [this.userservice.currentUser(), ...links]),
-            orderBy("timestamp", "desc")
           )
+        ).pipe(
+          map(routines => routines.sort((a, b) => new Date(a['timestamp']).getTime() > new Date(b['timestamp']).getTime() ? -1 : 1))
         ) as Observable<DiaperRoutine[]>
       )
     ), { initialValue: [] }
