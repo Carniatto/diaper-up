@@ -53,6 +53,11 @@
           {{lastRoutine()?.timestamp| date:'H:mm'}}
         </h2>
       </div>
+      <div>
+        @let lastPoopRoutine = lastPoopTime();
+        <img [src]="lastPoopRoutine.poopSvg" alt="last-poop" />
+        <h2>{{lastPoopRoutine.time}}</h2>
+      </div>
     </div>
     <ion-button class="start-routine" [routerLink]="['/routine']" shape="round">
       Start Routine
