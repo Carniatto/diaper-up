@@ -26,4 +26,8 @@ export const routes: Routes = [
       timestamp: getCurrentTimestamp
     }
   },
+  {
+    path: 'history',
+    loadComponent: () => import('./history/history.page').then( m => m.HistoryPage)
+  },
 ];

@@ -1,7 +1,7 @@
 {
-  "name": "diaper-up",
   "integrations": {
     "capacitor": {}
   },
+  "name": "diaper-up",
   "type": "angular-standalone"
 }

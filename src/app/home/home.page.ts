@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonFooter, IonButtons, IonIcon, IonModal, IonInput } from '@ionic/angular/standalone';
 import { RoutineService } from '../routine-service';
 import { UserService } from '../user.service';
-import { copy, link } from 'ionicons/icons';
+import { copy, link, time } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { DatePipe } from '@angular/common';
 import { formatDistance, formatRelative } from 'date-fns';
@@ -94,7 +94,7 @@ export class HomePage {
   ]
 
   constructor() {
-    addIcons({ link, copy });
+    addIcons({ link, time, copy });
   }
 
   copyUserId() {
