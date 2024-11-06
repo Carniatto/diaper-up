@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonList, IonButton, IonIcon } from '@ionic/angular/standalone';
-import { RoutineService } from '../routine-service';
+import { RoutineService } from '../services/routine-service';
 import { addDays, differenceInDays, endOfDay, format, formatDistanceToNow, formatRelative, startOfDay, subDays } from 'date-fns';
 import { arrowBack, arrowForward, trash } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -14,7 +14,7 @@ import { addIcons } from 'ionicons';
   standalone: true,
   imports: [IonIcon, IonButton, IonList, IonLabel, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-export class HistoryPage implements OnInit {
+export class HistoryPage {
   routineService = inject(RoutineService);
 
   selectedDate = signal<Date>(endOfDay(new Date()));
@@ -52,10 +52,6 @@ export class HistoryPage implements OnInit {
 
   constructor() {
     addIcons({ arrowBack, arrowForward, trash });
-  }
-
-
-  ngOnInit() {
   }
 
   prevDay() {

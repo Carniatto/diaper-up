@@ -28,14 +28,33 @@
       (selectionChange)="peeAmount.set($event)"
     />
     <div class="horizontal-split"></div>
-    <app-select-button
-      [list]="bottleButtons"
-      (selectionChange)="bottleAmount.set($event)"
+    <app-slider-button
+      [(value)]="bottleAmount"
+      [rangeConfigs]="[
+        { max: 0, icon: 'assets/svg/bottle-empty.svg' },
+        { min: 90, max: 120, icon: 'assets/svg/bottle-half.svg' },
+        { min: 150, max: 180, icon: 'assets/svg/bottle-full.svg' }
+      ]"
+      [defaultIcon]="'assets/svg/bottle-empty.svg'"
+      [defaultValue]="90"
+      unit="ml"
+      [step]="30"
     />
     <div class="vertical-split"></div>
     <app-slider-button
-      (selectionChange)="temperature.set($event)"
-    ></app-slider-button>
+      [(value)]="temperature"
+      [rangeConfigs]="[
+        { min: 36, max: 36.5, icon: 'assets/svg/temperature-freeze.svg' },
+        { min: 36.5, max: 36.8, icon: 'assets/svg/temperature-low.svg' },
+        { min: 36.8, max: 37.2, icon: 'assets/svg/temperature-normal.svg' },
+        { min: 37.2, max: 38, icon: 'assets/svg/temperature-high.svg' },
+        { min: 38, max: 39, icon: 'assets/svg/temperature-burn.svg' }
+      ]"
+      [defaultIcon]="'assets/svg/temperature-empty.svg'"
+      [defaultValue]="37.5"
+      unit="°C"
+      [step]="0.1"
+    />
   </div>
 
   <ion-button (click)="saveRoutine()">

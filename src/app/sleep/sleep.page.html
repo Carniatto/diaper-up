@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sleep</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="total-nap-header">
+    <div class="header-content">
+      <ion-icon name="time"></ion-icon>
+      <div class="header-text">
+        <h3>Total Nap Time Today</h3>
+        <span class="total-time">{{ totalNapTime() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-container">
+    @for (period of periods(); track $index) {
+      @if (period.type === 'nap') {
+        <ion-item-sliding>
+          <ion-item class="transparent-item">
+            <ion-card class="nap-card">
+              <ion-card-content>
+                <div class="card-grid">
+                  <div class="card-section title-section">
+                    <div class="title-with-icon">
+                      <ion-icon name="moon"></ion-icon>
+                      <h2>Nap</h2>
+                    </div>
+                  </div>
+
+                  <div class="card-section time-section">
+                    <div class="time-info">
+                      <div class="time-point">
+                        <ion-icon name="time-outline" size="small"></ion-icon>
+                        <span class="label">Start:</span>
+                        <span class="time">{{ formatTime(period.startTime) }}</span>
+                      </div>
+                      <div class="time-point">
+                        <ion-icon name="time-outline" size="small"></ion-icon>
+                        <span class="label">End:</span>
+                        <span class="time" [class.ongoing]="!period.endTime">
+                          {{ period.endTime ? formatTime(period.endTime) : 'Ongoing' }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card-section duration-section">
+                    @if (period.duration) {
+                      <div class="duration-badge">{{ period.duration }}</div>
+                    }
+                  </div>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="deleteNap(period.id!)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      } @else {
+        <ion-card class="wake-card">
+          <ion-card-content>
+            <div class="wake-grid">
+              <div class="title-with-icon">
+                <ion-icon name="sunny"></ion-icon>
+                <h2>Awake</h2>
+              </div>
+              <div></div>
+              <div class="wake-duration">
+                {{ period.duration }}
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      }
+    }
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [color]="hasOngoingNap() ? 'danger' : 'primary'" (click)="toggleNap()">
+      <ion-icon [name]="hasOngoingNap() ? 'stop-circle' : 'bed'"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

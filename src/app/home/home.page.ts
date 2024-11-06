@@ -1,12 +1,13 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonFooter, IonButtons, IonIcon, IonModal, IonInput } from '@ionic/angular/standalone';
-import { RoutineService } from '../routine-service';
-import { UserService } from '../user.service';
+import { RoutineService } from '../services/routine-service';
+import { UserService } from '../services/user.service';
 import { copy, link, time } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { DatePipe } from '@angular/common';
 import { formatDistance, formatRelative } from 'date-fns';
+import { ModalController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ import { formatDistance, formatRelative } from 'date-fns';
 export class HomePage {
   routineService = inject(RoutineService);
   userservice = inject(UserService);
+  modalController = inject(ModalController);
 
   totalDiapers = computed(() => {
     const today = new Date()
@@ -101,8 +103,9 @@ export class HomePage {
     navigator.clipboard.writeText(this.userservice.currentUser() ?? '');
   }
 
-  linkUser(link: string) {
+  async linkUser(link: string) {
     this.userservice.saveLink(link);
+    await this.modalController.dismiss();
   }
 
 }

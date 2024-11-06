@@ -2,6 +2,9 @@
   "apiKey": "AIzaSyCc1dDtVSij_X89H08qdv4dp3YxBBYiFsc",
   "appId": "1:268616075197:web:cc4de57972462b30c874d4",
   "authDomain": "diaper-up.firebaseapp.com",
+  "firestore": {
+    "rules": "firestore.rules"
+  },
   "emulators": {
     "firestore": {
       "port": 8080

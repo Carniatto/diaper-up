@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { RoutineService } from './routine-service';
 
 describe('RoutineServiceService', () => {

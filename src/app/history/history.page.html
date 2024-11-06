@@ -25,60 +25,43 @@
     </ion-button>
   </div>
   <div class="summary">
-    <div>
-      <img
-        style="width: 48px"
-        src="assets/svg/bottle-full.svg"
-        alt="baby-bottle"
-      />
-      {{summary().bottle}}
+    <div class="summary-item">
+      <img src="assets/svg/bottle-full.svg" alt="baby-bottle" />
+      <span>{{summary().bottle}}</span>
     </div>
-    <div>
-      <img style="width: 48px" src="assets/svg/pee-full.svg" alt="pee-drops" />
-      {{summary().pee}}
+    <div class="summary-item">
+      <img src="assets/svg/pee-full.svg" alt="pee-drops" />
+      <span>{{summary().pee}}</span>
     </div>
-    <div>
-      <img
-        style="width: 48px"
-        src="assets/svg/poop-gold-yellow.svg"
-        alt="last-poop"
-      />
-      {{summary().poo}}
+    <div class="summary-item">
+      <img src="assets/svg/poop-gold-yellow.svg" alt="last-poop" />
+      <span>{{summary().poo}}</span>
     </div>
   </div>
   <ion-list [inset]="true">
     <ion-item *ngFor="let item of routines()">
-      <div>{{item.timestamp | date: 'HH:mm'}}</div>
-      <div>
-        <img
-          style="width: 40px"
-          src="assets/svg/bottle-full.svg"
-          alt="baby-bottle"
-        />
-        <div>{{item.bottleAmount}}</div>
+      <div class="time-column">{{item.timestamp | date: 'HH:mm'}}</div>
+      <div class="routine-grid">
+        <div class="routine-item">
+          <div class="icon-container">
+            <img src="assets/svg/bottle-full.svg" alt="baby-bottle" />
+            <span>{{item.bottleAmount}}</span>
+          </div>
+        </div>
+        <div class="routine-item">
+          <div class="icon-container">
+            <img src="assets/svg/pee-full.svg" alt="pee-drops" />
+            <span>{{item.peeAmount}}</span>
+          </div>
+        </div>
+        <div class="routine-item">
+          <div class="icon-container">
+            <img src="assets/svg/poop-gold-yellow.svg" alt="last-poop" />
+            <span>{{item.poopColor}}</span>
+          </div>
+        </div>
       </div>
-      <div>
-        <img
-          style="width: 32px"
-          src="assets/svg/pee-full.svg"
-          alt="pee-drops"
-        />
-        <div>{{item.peeAmount}}</div>
-      </div>
-      <div>
-        <img
-          style="width: 32px"
-          src="assets/svg/poop-gold-yellow.svg"
-          alt="last-poop"
-        />
-        <div>{{item.poopColor}}</div>
-      </div>
-      <ion-button
-        size="medium"
-        fill="clear"
-        slot="end"
-        (click)="routineService.deleteRoutine(item)"
-      >
+      <ion-button size="medium" fill="clear" slot="end" (click)="routineService.deleteRoutine(item)">
         <ion-icon slot="icon-only" name="trash"></ion-icon>
       </ion-button>
     </ion-item>

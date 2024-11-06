@@ -1,5 +1,5 @@
 import { IonPopover } from '@ionic/angular/standalone';
-import { RoutineService } from './../routine-service';
+import { RoutineService } from '../services/routine-service';
 import { Component, OnInit, computed, inject, input, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -104,27 +104,6 @@ export class RoutinePage {
     {
       label: 'Full Pee',
       svg: 'assets/svg/pee-full.svg',
-      value: 2,
-      abnormal: true
-    },
-  ]
-
-  bottleButtons = [
-    {
-      label: 'No Bottle',
-      svg: 'assets/svg/bottle-empty.svg',
-      value: 0,
-      abnormal: false
-    },
-    {
-      label: 'Half Bottle',
-      svg: 'assets/svg/bottle-half.svg',
-      value: 1,
-      abnormal: true
-    },
-    {
-      label: 'Full Bottle',
-      svg: 'assets/svg/bottle-full.svg',
       value: 2,
       abnormal: true
     },

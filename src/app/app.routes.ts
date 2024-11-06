@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { toZonedTime, format } from 'date-fns-tz';
+import { TabsComponent } from './tabs/tabs.component';
 
 export const getCurrentTimestamp = () => {
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -11,23 +12,33 @@ export const getCurrentTimestamp = () => {
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
-  },
-  {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    component: TabsComponent,
+    children: [
+      {
+        path: 'home',
+        loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+      },
+      {
+        path: 'history',
+        loadComponent: () => import('./history/history.page').then(m => m.HistoryPage)
+      },
+      {
+        path: 'sleep',
+        loadComponent: () => import('./sleep/sleep.page').then(m => m.SleepPage)
+      },
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+    ]
   },
   {
     path: 'routine',
-    loadComponent: () => import('./routine/routine.page').then( m => m.RoutinePage),
+    loadComponent: () => import('./routine/routine.page').then(m => m.RoutinePage),
     resolve: {
       timestamp: getCurrentTimestamp
     }
-  },
-  {
-    path: 'history',
-    loadComponent: () => import('./history/history.page').then( m => m.HistoryPage)
   },
 ];

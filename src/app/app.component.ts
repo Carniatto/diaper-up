@@ -4,7 +4,7 @@ import { IonApp, IonRouterOutlet, IonContent } from '@ionic/angular/standalone';
 import { Database, ref, list } from "@angular/fire/database";
 import { JsonPipe } from '@angular/common';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore';
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',

@@ -3,7 +3,7 @@ import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { user } from '@angular/fire/auth';
 import { limitToFirst } from '@angular/fire/database';
 import { addDoc, arrayUnion, collection, Firestore, updateDoc, getDocs, query, where, limit, collectionData } from '@angular/fire/firestore';
-import { map, switchMap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 
 
 type UserLink = {
@@ -37,12 +37,15 @@ export class UserService {
 
   getUserLinks() {
     return toObservable(this.currentUser).pipe(
+      tap(user => console.log('user', user)),
       switchMap(user => collectionData(
         query(
           this.#userLinksCollection,
           where("user", "==", user),
         )
-      ).pipe(map((data) => {
+      ).pipe(
+        tap(data => console.log('data', data)),
+        map((data) => {
         return (data?.[0]?.['links'] ?? []) as string[];
       }))
       )

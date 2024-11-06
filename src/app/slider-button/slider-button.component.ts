@@ -1,5 +1,11 @@
-import { Component, computed, DestroyRef, effect, inject, output, signal, viewChild } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, output, signal, viewChild, input, model } from '@angular/core';
 import { IonButton, IonPopover, IonContent, IonRange } from "@ionic/angular/standalone";
+
+interface RangeConfig {
+  min?: number;
+  max?: number;
+  icon: string;
+}
 
 @Component({
   selector: 'app-slider-button',
@@ -9,15 +15,19 @@ import { IonButton, IonPopover, IonContent, IonRange } from "@ionic/angular/stan
   standalone: true,
 })
 export class SliderButtonComponent {
-  temperature = signal<number>(0);
-
+  destroyRef = inject(DestroyRef);
+  value = model<number>(0);
+  unit = input<string>('');
+  defaultValue = input<number>(0);
+  rangeConfigs = input<RangeConfig[]>([]);
+  defaultIcon = input<string>('');
+  step = input<number>(1);
   selectionChange = output<number>();
-
   popover = viewChild(IonPopover);
 
   constructor() {
     effect(() => {
-      this.selectionChange.emit(this.temperature());
+      this.selectionChange.emit(this.value());
     });
 
     this.destroyRef.onDestroy(() => {
@@ -25,29 +35,30 @@ export class SliderButtonComponent {
     })
   }
 
-  destroyRef = inject(DestroyRef);
-
-  ionViewWillLeave() {
-
+  presentPopover(e: Event) {
+    this.popover()!.event = e;
+    this.popover()!.present();
   }
 
-  temperatureIcon = computed(() => {
-    if (this.temperature() === 0) {
-      return 'assets/svg/temperature-empty.svg';
-    } else if (this.temperature() < 36.5) {
-      return 'assets/svg/temperature-freeze.svg';
-    } else if (this.temperature() >= 36.5 && this.temperature() < 36.8) {
-      return 'assets/svg/temperature-low.svg';
-    } else if (this.temperature() >= 36.8 && this.temperature() <= 37.2) {
-      return 'assets/svg/temperature-normal.svg';
-    } else if (this.temperature() > 37.2 && this.temperature() <= 37.5) {
-      return 'assets/svg/temperature-high.svg';
-    } else {
-      return 'assets/svg/temperature-burn.svg';
-    }
+  range = computed(() => {
+    const configs = this.rangeConfigs();
+    const min = Math.min(...configs.map(c => c.min ?? 0))*10;
+    const max = Math.max(...configs.map(c => c.max ?? 0))*10;
+    return { min, max };
   });
 
-  tempFormatter(value: number) {
+  currentIcon = computed(() => {
+    const currentValue = this.value();
+    if (currentValue === 0) {
+      return this.defaultIcon();
+    }
+    return this.rangeConfigs().find(range => 
+      (range.min === undefined || currentValue >= range.min) &&
+      (range.max === undefined || currentValue <= range.max)
+    )?.icon ?? this.defaultIcon();
+  });
+
+  valueFormatter(value: number) {
     return `${value / 10}`;
   }
 }

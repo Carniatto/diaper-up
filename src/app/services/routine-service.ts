@@ -2,7 +2,7 @@
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Firestore, collectionData, collection, addDoc, query, where, getDocs, orderBy, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { UserService } from './user.service';
 import { user } from '@angular/fire/auth';
 
@@ -27,20 +27,23 @@ export class RoutineService {
 
   routines = toSignal(
     this.userservice.getUserLinks().pipe(
+      tap(links => console.log('links', links)),
       switchMap(links =>
         collectionData(
           query(
             this.#routineColletion,
             where("user", "in", [this.userservice.currentUser(), ...links]),
+            where('timestamp', '>=', new Date(new Date().setDate(new Date().getDate() - 1)).toUTCString())
           ), { idField: 'id' }
         ).pipe(
+          tap(routines => console.log('routines', routines)),
           map(routines => routines.sort(
             (a, b) => new Date(a['timestamp']).getTime() > new Date(b['timestamp']).getTime() ? -1 : 1
           ))
         ) as Observable<DiaperRoutine[]>
-      )
-    ), { initialValue: [] }
-  );
+      ),
+    ), { initialValue: [],  }
+  ,);
 
 
   addRoutine(routine: DiaperRoutine) {
@@ -51,7 +54,6 @@ export class RoutineService {
   }
 
   deleteRoutine(routine: DiaperRoutine) {
-    debugger
     const routineRef = doc(this.#routineColletion, routine.id);
     deleteDoc(routineRef);
   }
