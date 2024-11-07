@@ -33,7 +33,6 @@ export class RoutineService {
           query(
             this.#routineColletion,
             where("user", "in", [this.userservice.currentUser(), ...links]),
-            where('timestamp', '>=', new Date(new Date().setDate(new Date().getDate() - 1)).toUTCString())
           ), { idField: 'id' }
         ).pipe(
           tap(routines => console.log('routines', routines)),
