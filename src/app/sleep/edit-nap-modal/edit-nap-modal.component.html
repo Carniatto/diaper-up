@@ -1,0 +1,78 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Edit Nap Time</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" color="medium">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="time-container">
+    <div class="time-section">
+      <div class="time-label">
+        <ion-icon name="sunny-outline" color="warning" size="medium"></ion-icon>
+        <span>Start Time</span>
+      </div>
+      <div class="time-input-wrapper">
+        <ion-datetime-button datetime="startTime" class="time-button"></ion-datetime-button>
+      </div>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime 
+            id="startTime"
+            [value]="formatDisplayTime(startTime())"
+            presentation="date-time"
+            [preferWheel]="true"
+            [showDefaultButtons]="false"
+            hourCycle="h23"
+            [max]="formatDisplayTime(endTime())"
+            (ionChange)="onTimeChange($event, 'start')">
+            >
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="time-section">
+      <div class="time-label">
+        <ion-icon name="moon-outline" size="medium" color="primary"></ion-icon>
+        <span>End Time</span>
+      </div>
+      <div class="time-input-wrapper">
+        <ion-datetime-button datetime="endTime" class="time-button"></ion-datetime-button>
+      </div>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime 
+            id="endTime"
+            [value]="formatDisplayTime(endTime())"
+            presentation="date-time"
+            [preferWheel]="true"
+            [showDefaultButtons]="false"
+            hourCycle="h23"
+            [min]="formatDisplayTime(startTime())"
+            (ionChange)="onTimeChange($event, 'end')">
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+  </div>
+
+  @if (startTime() && endTime()) {
+    <div class="duration-display">
+      <ion-icon name="time-outline" color="dark"></ion-icon>
+      <span class="duration-text">
+        Duration: {{ duration() }}
+      </span>
+    </div>
+  }
+
+  <ion-button expand="block" (click)="save()" class="save-button">
+    Save Changes
+  </ion-button>
+</ion-content> 

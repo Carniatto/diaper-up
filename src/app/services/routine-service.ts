@@ -1,10 +1,11 @@
 
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Firestore, collectionData, collection, addDoc, query, where, getDocs, orderBy, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, addDoc, query, where, getDocs, orderBy, deleteDoc, doc, updateDoc, Timestamp } from '@angular/fire/firestore';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { UserService } from './user.service';
 import { user } from '@angular/fire/auth';
+import { subDays } from 'date-fns';
 
 type DiaperRoutine = {
   id?: string;
@@ -33,16 +34,19 @@ export class RoutineService {
           query(
             this.#routineColletion,
             where("user", "in", [this.userservice.currentUser(), ...links]),
+            where('timestamp', '>=', Timestamp.fromDate(subDays(new Date(), 1))),
+            orderBy('timestamp', 'desc')
           ), { idField: 'id' }
         ).pipe(
           tap(routines => console.log('routines', routines)),
-          map(routines => routines.sort(
-            (a, b) => new Date(a['timestamp']).getTime() > new Date(b['timestamp']).getTime() ? -1 : 1
-          ))
-        ) as Observable<DiaperRoutine[]>
+          map(routines => routines.map(r => ({
+            ...r,
+            timestamp: r['timestamp'].toDate().toUTCString()
+          }) as DiaperRoutine))
+        )
       ),
-    ), { initialValue: [],  }
-  ,);
+    ), { initialValue: []}
+  );
 
 
   addRoutine(routine: DiaperRoutine) {
@@ -61,7 +65,12 @@ export class RoutineService {
     const routineRef = doc(this.#routineColletion, 'timestamp', routine.timestamp);
     updateDoc(routineRef, {
       ...routine,
+      timestamp: Timestamp.fromDate(new Date(routine.timestamp)),
       user: this.userservice.currentUser()
     });
   }
 }
+function subtract(arg0: Date, arg1: { days: number; }): Date {
+  throw new Error('Function not implemented.');
+}
+

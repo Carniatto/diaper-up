@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, orderBy, getDocs, deleteDoc, doc, updateDoc, or, and } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, where, orderBy, getDocs, deleteDoc, doc, updateDoc, or, and, Timestamp } from '@angular/fire/firestore';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject } from 'rxjs';
+import { async, BehaviorSubject } from 'rxjs';
+import { endOfDay, startOfDay } from 'date-fns';
 
 export interface Nap {
   id?: string;
@@ -20,9 +21,9 @@ export class NapService {
 
   async startNap(userId: string): Promise<void> {
     const napsCollection = collection(this.firestore, 'naps');
-    const newNap: Nap = {
-      startTime: new Date().toUTCString(),
-      endTime: '',
+    const newNap = {
+      startTime: Timestamp.fromDate(new Date()),
+      endTime: null,
       user: userId
     };
     
@@ -39,45 +40,39 @@ export class NapService {
 
     const napRef = doc(this.firestore, 'naps', ongoingNap.id);
     await updateDoc(napRef, {
-      endTime: new Date().toUTCString()
+      endTime: Timestamp.fromDate(new Date())
     });
     
     await this.loadTodayNaps(userId);
   }
 
   async loadTodayNaps(userId: string): Promise<void> {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
+    const startOfDayUTC = startOfDay(new Date()).toUTCString();
     
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
-
-    const startOfDayUTC = startOfDay.toUTCString();
-    const endOfDayUTC = endOfDay.toUTCString();
+    const endOfDayUTC = endOfDay(new Date()).toUTCString();
     
     const napsCollection = collection(this.firestore, 'naps');
-    const q = query(
+    const q = query<any, any>(
       napsCollection,
       and(
         where('user', '==', userId),
-      or(
-        where('startTime', '>=', startOfDayUTC),
-        where('startTime', '<=', endOfDayUTC)
-      ),
-      or(
-        where('endTime', '>=', startOfDayUTC),
-        where('endTime', '<=', endOfDayUTC),
-        where('endTime', '==', '')
-      )
+        or(
+          where('startTime', '>=', Timestamp.fromDate(new Date(startOfDayUTC))),
+          where('startTime', '<=', Timestamp.fromDate(new Date(endOfDayUTC)))
+        ),
+        or(
+          where('endTime', '>=', Timestamp.fromDate(new Date(startOfDayUTC))),
+          where('endTime', '<=', Timestamp.fromDate(new Date(endOfDayUTC))),
+          where('endTime', '==', null)
+        )
       ),
       orderBy('startTime', 'desc')
     );
 
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs<{ user: string, startTime: Timestamp, endTime: Timestamp }, Nap>(q);
     const naps: Nap[] = [];
-    
     querySnapshot.forEach((doc) => {
-      naps.push({ id: doc.id, ...doc.data() } as Nap);
+      naps.push({ id: doc.id, ...doc.data(), startTime: doc.data()['startTime'].toDate().toUTCString(), endTime: doc.data()['endTime']?.toDate().toUTCString() });
     });
 
     this.napsSubject.next(naps);
@@ -86,6 +81,16 @@ export class NapService {
   async deleteNap(napId: string, userId: string): Promise<void> {
     const napRef = doc(this.firestore, 'naps', napId);
     await deleteDoc(napRef);
+    await this.loadTodayNaps(userId);
+  }
+
+  async editNap(napId: string, userId: string, startTime: string, endTime?: string): Promise<void> {
+    const napRef = doc(this.firestore, 'naps', napId);
+    
+    await updateDoc(napRef, {
+      startTime: Timestamp.fromDate(new Date(startTime)),
+      endTime: endTime ? Timestamp.fromDate(new Date(endTime)) : null
+    });
     await this.loadTodayNaps(userId);
   }
 } 

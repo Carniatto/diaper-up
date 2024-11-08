@@ -18,7 +18,7 @@
   <div class="card-container">
     @for (period of periods(); track $index) {
       @if (period.type === 'nap') {
-        <ion-item-sliding>
+        <ion-item-sliding #slidingItem>
           <ion-item class="transparent-item">
             <ion-card class="nap-card">
               <ion-card-content>
@@ -57,7 +57,10 @@
             </ion-card>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option color="danger" (click)="deleteNap(period.id!)">
+            <ion-item-option color="success" (click)="editNap(period, slidingItem)">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-item-option>
+            <ion-item-option color="danger" (click)="deleteNap(period.id!, slidingItem)">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
           </ion-item-options>

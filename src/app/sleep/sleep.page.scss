@@ -191,10 +191,21 @@ ion-item-sliding {
 
 ion-item-option {
   border-radius: 16px;
+  margin: 0 4px;
   
   ion-icon {
     color: white;
     font-size: 20px;
+  }
+
+  &[color="primary"] {
+    --background: var(--ion-color-success);
+    --color: white;
+  }
+
+  &[color="danger"] {
+    --background: var(--ion-color-danger);
+    --color: white;
   }
 }
 

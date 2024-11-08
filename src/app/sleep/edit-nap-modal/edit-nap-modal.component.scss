@@ -1,0 +1,128 @@
+.time-container {
+  background: var(--ion-color-light);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.time-section {
+  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .time-button {
+    width: 100%;
+    --background: white;
+    --border-radius: 10px;
+  }
+}
+
+.time-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1em;
+  color: var(--ion-color-dark);
+
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+.time-input-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.time-input-wrapper {
+  width: 100%;
+}
+
+.label-container {
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.next-day-label {
+  font-size: 0.75em;
+  color: var(--ion-color-light-shade);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background: var(--ion-color-warning);
+  border-radius: 8px;
+  padding: 4px;
+
+  &.visible {
+    opacity: 1;
+  }
+}
+
+.divider {
+  height: 1px;
+  background: var(--ion-color-light-shade);
+  margin: 16px 0;
+  grid-column: 1 / -1;
+}
+
+.duration-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  background: var(--ion-color-light);
+  padding: 12px;
+  border-radius: 12px;
+  margin: 20px 0;
+
+  ion-icon {
+    font-size: 24px;
+  }
+
+  .duration-text {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+  }
+
+  &.error {
+    background: var(--ion-color-danger-tint);
+  }
+
+  .duration-text {
+    &.error-text {
+      color: var(--ion-color-danger);
+    }
+  }
+
+  .next-day {
+    font-size: 0.8em;
+    color: var(--ion-color-medium);
+    margin-left: 8px;
+  }
+}
+
+.save-button {
+  margin-top: 20px;
+  --border-radius: 10px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+
+  &[disabled] {
+    opacity: 0.6;
+  }
+}
+
+ion-datetime {
+  --background: var(--ion-color-light);
+  border-radius: 16px;
+} 

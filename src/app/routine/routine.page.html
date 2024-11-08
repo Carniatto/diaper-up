@@ -1,6 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Routine</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="back()" color="medium">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -38,7 +43,7 @@
       [defaultIcon]="'assets/svg/bottle-empty.svg'"
       [defaultValue]="90"
       unit="ml"
-      [step]="30"
+      [step]="10"
     />
     <div class="vertical-split"></div>
     <app-slider-button
