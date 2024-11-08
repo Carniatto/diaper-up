@@ -26,7 +26,7 @@ export class HistoryPage {
 
   nextDisabled = computed(() => this.daysFromToday() <= 0);
   prevDisabled = computed(() => {
-    const ealiestDate = new Date(this.routineService.routines().at(-1)?.timestamp!)
+    const ealiestDate = new Date(this.routineService.routines().at(0)?.timestamp!);
     return differenceInDays(startOfDay(this.selectedDate()), startOfDay(ealiestDate)) <= 0;
   });
 
