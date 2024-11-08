@@ -1,38 +1,43 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 
 @Component({
   selector: 'app-bottle-amount-image',
   template: `
-    <img [src]="imageSrc" [alt]="imageAlt" />
+    <img [src]="imageSrc" [alt]="imageAlt" [width]="size()" [height]="size()" />
   `,
-  styles: [`
-    img {
-      width: 32px;
-      height: 32px;
-    }
-  `],
   standalone: true
 })
 export class BottleAmountImageComponent {
-  @Input() bottleAmount: number = 0;
+  bottleAmount = input<number>(0);
+  size = input<number>(32);
 
   get imageSrc(): string {
-    if (this.bottleAmount === 0) {
+    const amount = this.bottleAmount();
+    if (amount < 30)  {
       return 'assets/svg/bottle-empty.svg';
-    } else if (this.bottleAmount > 100) {
-      return 'assets/svg/bottle-full.svg';
+    } else if (amount < 70) {
+      return 'assets/svg/bottle-quarter.svg';
+    } else if (amount < 130) {
+      return 'assets/svg/bottle-half.svg';
+    } else if (amount < 180) {
+      return 'assets/svg/bottle-threequarter.svg';
     } else {
       return 'assets/svg/bottle-half.svg';
     }
   }
 
   get imageAlt(): string {
-    if (this.bottleAmount === 0) {
+    const amount = this.bottleAmount();
+    if (amount < 30) {
       return 'bottle-empty';
-    } else if (this.bottleAmount > 100) {
-      return 'bottle-full';
-    } else {
+    } else if (amount < 70) {
+      return 'bottle-quarter';
+    } else if (amount < 130) {
       return 'bottle-half';
+    } else if (amount < 180) {
+      return 'bottle-threequarter';
+    } else {
+      return 'bottle-full';
     }
   }
 } 

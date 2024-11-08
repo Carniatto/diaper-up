@@ -8,13 +8,14 @@ import { addIcons } from 'ionicons';
 import { DatePipe } from '@angular/common';
 import { formatDistance, formatRelative } from 'date-fns';
 import { ModalController } from '@ionic/angular/standalone';
+import { BottleAmountImageComponent } from "../components/bottle-amount-image.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonInput, IonModal, IonIcon, IonButtons, IonFooter, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, RouterLink, DatePipe],
+  imports: [IonInput, IonModal, IonIcon, IonButtons, IonFooter, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, RouterLink, DatePipe, BottleAmountImageComponent],
 })
 export class HomePage {
   routineService = inject(RoutineService);
@@ -36,8 +37,8 @@ export class HomePage {
       .filter(r => r.hasPeed).length;
   });
 
-  lastRoutine = computed(() => {
-    return this.routineService.routines().filter(r => r.bottleAmount > 0).at(0);
+  lastFeed = computed(() => {
+    return this.routineService.routines().filter(r => r.bottleAmount > 0).at(-1);
   });
 
   lastPoopTime = computed(() => {

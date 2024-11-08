@@ -1,11 +1,10 @@
 
 import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Firestore, collectionData, collection, addDoc, query, where, getDocs, orderBy, deleteDoc, doc, updateDoc, Timestamp } from '@angular/fire/firestore';
-import { map, Observable, switchMap, tap } from 'rxjs';
-import { UserService } from './user.service';
-import { user } from '@angular/fire/auth';
+import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, orderBy, query, Timestamp, updateDoc, where } from '@angular/fire/firestore';
 import { startOfDay, subDays } from 'date-fns';
+import { map, switchMap, tap } from 'rxjs';
+import { UserService } from './user.service';
 
 type DiaperRoutine = {
   id?: string;
