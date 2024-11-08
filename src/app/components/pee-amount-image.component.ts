@@ -19,10 +19,10 @@ export class PeeAmountImageComponent {
   get imageSrc(): string {
     if (this.peeAmount === 0) {
       return 'assets/svg/pee-empty.svg';
-    } else if (this.peeAmount > 100) {
-      return 'assets/svg/pee-full.svg';
-    } else {
+    } else if (this.peeAmount === 1) {
       return 'assets/svg/pee-half.svg';
+    } else {
+      return 'assets/svg/pee-full.svg';
     }
   }
 
