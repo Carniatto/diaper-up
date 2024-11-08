@@ -23,38 +23,39 @@
   }
 }
 
+ion-list {
+  background: transparent;
+  --ion-item-border-color: transparent;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
 ion-item {
-  --padding-start: 1rem;
-  --padding-end: 1rem;
-  
+  --ion-item-background: #f6f6f6;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  color: #333;
+
   .time-column {
-    min-width: 60px;
+    min-width: 48px;
     margin-right: 1rem;
+    font-weight: bold;
+    color: #333;
   }
 
   .routine-grid {
-    display: flex;
+    display: grid;
     gap: 2rem;
-    flex: 1;
-    
+    grid-template-columns: 90px repeat(2, 1fr);
     .routine-item {
-      flex: 1;
       display: flex;
-      justify-content: center;
-      
+      justify-content: start;
+
       .icon-container {
         display: flex;
         align-items: center;
+        justify-self: flex-start;
         gap: 0.3rem;
-        
-        img {
-          width: 32px;
-          height: 32px;
-        }
-        
-        span {
-          font-size: 0.875rem;
-        }
       }
     }
   }

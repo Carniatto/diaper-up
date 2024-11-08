@@ -6,13 +6,16 @@ import { RoutineService } from '../services/routine-service';
 import { addDays, differenceInDays, endOfDay, format, formatDistanceToNow, formatRelative, startOfDay, subDays } from 'date-fns';
 import { arrowBack, arrowForward, trash } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { PeeAmountImageComponent } from "../components/pee-amount-image.component";
+import { PooAmountImageComponent } from "../components/poo-amount-image.component";
+import { BottleAmountImageComponent } from "../components/bottle-amount-image.component";
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonButton, IonList, IonLabel, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonIcon, IonButton, IonList, IonLabel, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, PeeAmountImageComponent, PooAmountImageComponent, BottleAmountImageComponent]
 })
 export class HistoryPage {
   routineService = inject(RoutineService);
@@ -45,7 +48,7 @@ export class HistoryPage {
     return this.routines().reduce((acc, routine) => {
       acc['pee'] = acc['pee'] + routine.peeAmount / 2;
       acc['poo'] = routine.hasPooped ? acc['poo'] + 1 : acc['poo'];
-      acc['bottle'] = acc['bottle'] + routine.bottleAmount / 2;
+      acc['bottle'] = acc['bottle'] + routine.bottleAmount;
       return acc;
     }, { pee: 0, poo: 0, bottle: 0 });
   });

@@ -52,6 +52,7 @@ export class RoutineService {
   addRoutine(routine: DiaperRoutine) {
     addDoc(this.#routineColletion, {
       ...routine,
+      timestamp: Timestamp.fromDate(new Date(routine.timestamp)),
       user: this.userservice.currentUser()
     });
   }
