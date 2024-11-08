@@ -35,7 +35,7 @@ export class RoutineService {
             this.#routineColletion,
             where("user", "in", [this.userservice.currentUser(), ...links]),
             where('timestamp', '>=', Timestamp.fromDate(startOfDay(subDays(new Date(), 1)))),
-            orderBy('timestamp', 'desc')
+            orderBy('timestamp')
           ), { idField: 'id' }
         ).pipe(
           tap(routines => console.log('routines', routines)),
