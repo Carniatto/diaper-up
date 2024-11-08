@@ -60,7 +60,7 @@
             <ion-item-option color="success" (click)="editNap(period, slidingItem)">
               <ion-icon slot="icon-only" name="create"></ion-icon>
             </ion-item-option>
-            <ion-item-option color="danger" (click)="deleteNap(period.id!, slidingItem)">
+            <ion-item-option color="danger" (click)="removeNap(period.id!, slidingItem)">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
           </ion-item-options>
@@ -85,8 +85,8 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [color]="hasOngoingNap() ? 'danger' : 'primary'" (click)="toggleNap()">
-      <ion-icon [name]="hasOngoingNap() ? 'stop-circle' : 'bed'"></ion-icon>
+    <ion-fab-button color="primary" (click)="createNap()">
+      <ion-icon name="bed" />
     </ion-fab-button>
   </ion-fab>
 </ion-content>

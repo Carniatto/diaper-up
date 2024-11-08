@@ -5,7 +5,7 @@ import { Firestore, collectionData, collection, addDoc, query, where, getDocs, o
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { UserService } from './user.service';
 import { user } from '@angular/fire/auth';
-import { subDays } from 'date-fns';
+import { startOfDay, subDays } from 'date-fns';
 
 type DiaperRoutine = {
   id?: string;
@@ -34,7 +34,7 @@ export class RoutineService {
           query(
             this.#routineColletion,
             where("user", "in", [this.userservice.currentUser(), ...links]),
-            where('timestamp', '>=', Timestamp.fromDate(subDays(new Date(), 1))),
+            where('timestamp', '>=', Timestamp.fromDate(startOfDay(subDays(new Date(), 1)))),
             orderBy('timestamp', 'desc')
           ), { idField: 'id' }
         ).pipe(

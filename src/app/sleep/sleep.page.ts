@@ -6,14 +6,15 @@ import { UserService } from '../services/user.service';
 import { bed, trash, moon, sunny, checkmarkCircle, timeOutline, stopCircle, create } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { computed } from '@angular/core';
-import { EditNapModalComponent } from './edit-nap-modal/edit-nap-modal.component';
+import { NapModalComponent } from './nap-modal/nap-modal.component';
 import { differenceInMinutes } from 'date-fns/differenceInMinutes';
 import { differenceInHours } from 'date-fns/differenceInHours';
+import { format } from 'date-fns';
 
 export interface NapPeriod {
   type: 'nap' | 'wake';
-  startTime: string;
-  endTime?: string;
+  startTime: Date;
+  endTime: Date | null;
   duration?: string;
   id?: string;
 }
@@ -43,7 +44,7 @@ export class SleepPage implements OnInit {
         type: 'nap',
         startTime: currentNap.startTime,
         endTime: currentNap.endTime,
-        duration: currentNap.endTime ? this.getDuration(currentNap.endTime, currentNap.startTime) : undefined,
+        duration: this.getDuration(currentNap.endTime, currentNap.startTime),
         id: currentNap.id
       });
 
@@ -53,7 +54,7 @@ export class SleepPage implements OnInit {
           type: 'wake',
           startTime: nextNap.endTime!,
           endTime: currentNap.startTime,
-          duration: this.getDuration(currentNap.startTime, nextNap.endTime!)
+          duration: this.getDuration(currentNap.startTime, nextNap.endTime)
         };
         periods.push(wakePeriod);
       }
@@ -62,18 +63,13 @@ export class SleepPage implements OnInit {
     return periods;
   });
 
-  hasOngoingNap = computed(() => {
-    const naps = this.napService.naps();
-    return naps && naps.length > 0 && !naps[0].endTime;
-  });
-
   totalNapTime = computed(() => {
     const naps = this.napService.naps();
     if (!naps?.length) return '0h 0m';
 
     const totalMinutes = naps.reduce((acc, nap) => {
       if (nap.endTime) {
-        return acc + differenceInMinutes(new Date(nap.endTime), new Date(nap.startTime));
+        return acc + differenceInMinutes(nap.endTime, nap.startTime);
       }
       return acc;
     }, 0);
@@ -95,15 +91,11 @@ export class SleepPage implements OnInit {
     this.loadNaps();
   }
 
-  formatTime(timeString: string): string {
-    return new Date(timeString).toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: false
-    });
+  formatTime(time: Date): string {
+    return format(time, 'HH:mm');
   }
 
-  getDuration(endTime: string, nextStartTime: string): string {
+  getDuration(endTime: Date, nextStartTime: Date): string {
     const start = new Date(nextStartTime);
     const end = new Date(endTime);
     const hours = differenceInHours(end, start);
@@ -121,49 +113,24 @@ export class SleepPage implements OnInit {
     }
   }
 
-  async startNap() {
-    const userId = this.userService.currentUser();
-    if (userId) {
-      await this.napService.startNap(userId);
-    }
-  }
-
-  async endNap(napId?: string) {
-    const userId = this.userService.currentUser();
-    if (userId) {
-      await this.napService.endNap(userId);
-    }
-  }
-
-  async deleteNap(napId: string, slidingItem: IonItemSliding) {
+  async removeNap(napId: string, slidingItem: IonItemSliding) {
     await slidingItem.close();
     const userId = this.userService.currentUser();
     if (userId) {
-      await this.napService.deleteNap(napId, userId);
+      await this.napService.remove(napId);
     }
   }
-
-  async toggleNap() {
-    const userId = this.userService.currentUser();
-    if (!userId) return;
-
-    if (this.hasOngoingNap()) {
-      await this.endNap();
-    } else {
-      await this.startNap();
-    }
-  }
+  
 
   async editNap(period: NapPeriod, slidingItem: IonItemSliding) {
     await slidingItem.close();
     const modal = await this.modalCtrl.create({
-      component: EditNapModalComponent,
+      component: NapModalComponent,
       componentProps: {
         nap: {
           id: period.id,
           startTime: period.startTime,
           endTime: period.endTime,
-          user: this.userService.currentUser()
         }
       }
     });
@@ -174,7 +141,36 @@ export class SleepPage implements OnInit {
     if (data && period.id) {
       const userId = this.userService.currentUser();
       if (userId) {
-        await this.napService.editNap(period.id, userId, data.startTime, data.endTime);
+        await this.napService.update(period.id, {
+          startTime: data.startTime,
+          endTime: data.endTime
+        });
+      }
+    }
+  }
+
+  async createNap() {
+    const modal = await this.modalCtrl.create({
+      component: NapModalComponent,
+      componentProps: {
+        nap: {
+          startTime: new Date(),
+          endTime: new Date(),
+        }
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss<{ startTime: Date, endTime: Date }>();
+    if (data) {
+      const userId = this.userService.currentUser();
+      if (userId) {
+        await this.napService.create({
+          startTime: data.startTime,
+          endTime: data.endTime,
+          user: userId
+        });
       }
     }
   }

@@ -1,96 +1,87 @@
-import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, orderBy, getDocs, deleteDoc, doc, updateDoc, or, and, Timestamp } from '@angular/fire/firestore';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { async, BehaviorSubject } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { Firestore, collection, addDoc, updateDoc, doc, Timestamp, deleteDoc, query, where, or, and, orderBy, getDocs, FirestoreDataConverter, DocumentData, QueryDocumentSnapshot } from '@angular/fire/firestore';
 import { endOfDay, startOfDay } from 'date-fns';
+import { UserService } from './user.service';
 
-export interface Nap {
+export interface Nap<T> {
   id?: string;
-  startTime: string;
-  endTime?: string;
+  startTime: T;
+  endTime: T;
   user: string;
 }
+
+const napConverter: FirestoreDataConverter<Nap<Date>> = {
+  toFirestore(nap: Nap<Date>): DocumentData {
+    return {
+      startTime: Timestamp.fromDate(nap.startTime),
+      endTime: nap.endTime ? Timestamp.fromDate(nap.endTime) : null,
+      user: nap.user
+    };
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot<Nap<Timestamp>>): Nap<Date> {
+    const data = snapshot.data();
+    return {
+      id: snapshot.id,
+      startTime: data.startTime.toDate(),
+      endTime: data.endTime.toDate(),
+      user: data.user
+    };
+  }
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class NapService {
   private firestore = inject(Firestore);
-  private napsSubject = new BehaviorSubject<Nap[]>([]);
-  readonly naps = toSignal(this.napsSubject.asObservable());
+  private userService = inject(UserService);
+  readonly naps = signal<Nap<Date>[]>([]);
 
-  async startNap(userId: string): Promise<void> {
-    const napsCollection = collection(this.firestore, 'naps');
-    const newNap = {
-      startTime: Timestamp.fromDate(new Date()),
-      endTime: null,
-      user: userId
-    };
-    
-    // Save to Firebase immediately
-    await addDoc(napsCollection, newNap);
-    await this.loadTodayNaps(userId);
+  private napsCollection = collection(this.firestore, 'naps').withConverter(napConverter);
+
+  async create(nap: Omit<Nap<Date>, 'id'>): Promise<void> {
+    await addDoc(this.napsCollection, nap);
+    await this.loadTodayNaps(this.userService.currentUser()!);
   }
 
-  async endNap(userId: string): Promise<void> {
-    const currentNaps = this.napsSubject.value;
-    const ongoingNap = currentNaps.find(nap => !nap.endTime);
-    
-    if (!ongoingNap || !ongoingNap.id) return;
-
-    const napRef = doc(this.firestore, 'naps', ongoingNap.id);
-    await updateDoc(napRef, {
-      endTime: Timestamp.fromDate(new Date())
-    });
-    
-    await this.loadTodayNaps(userId);
+  async update(napId: string, updates: Partial<Nap<Date>>): Promise<void> {
+    const napRef = doc(this.napsCollection, napId);
+    await updateDoc(napRef, updates);
+    await this.loadTodayNaps(this.userService.currentUser()!);
   }
+
+  async remove(napId: string): Promise<void> {
+    const napRef = doc(this.napsCollection, napId);
+    await deleteDoc(napRef);
+    await this.loadTodayNaps(this.userService.currentUser()!);
+  }
+
 
   async loadTodayNaps(userId: string): Promise<void> {
-    const startOfDayUTC = startOfDay(new Date()).toUTCString();
+    const startOfDayUTC = startOfDay(new Date());
+    const endOfDayUTC = endOfDay(new Date());
     
-    const endOfDayUTC = endOfDay(new Date()).toUTCString();
-    
-    const napsCollection = collection(this.firestore, 'naps');
-    const q = query<any, any>(
-      napsCollection,
+    const q = query(
+      this.napsCollection,
       and(
         where('user', '==', userId),
         or(
-          where('startTime', '>=', Timestamp.fromDate(new Date(startOfDayUTC))),
-          where('startTime', '<=', Timestamp.fromDate(new Date(endOfDayUTC)))
+          where('startTime', '>=', startOfDayUTC),
+          where('startTime', '<=', endOfDayUTC)
         ),
         or(
-          where('endTime', '>=', Timestamp.fromDate(new Date(startOfDayUTC))),
-          where('endTime', '<=', Timestamp.fromDate(new Date(endOfDayUTC))),
+          where('endTime', '>=', startOfDayUTC),
+          where('endTime', '<=', endOfDayUTC),
           where('endTime', '==', null)
         )
       ),
       orderBy('startTime', 'desc')
     );
 
-    const querySnapshot = await getDocs<{ user: string, startTime: Timestamp, endTime: Timestamp }, Nap>(q);
-    const naps: Nap[] = [];
-    querySnapshot.forEach((doc) => {
-      naps.push({ id: doc.id, ...doc.data(), startTime: doc.data()['startTime'].toDate().toUTCString(), endTime: doc.data()['endTime']?.toDate().toUTCString() });
-    });
+    const naps = await getDocs(q).then(docs => docs.docs.map(doc => doc.data()));
 
-    this.napsSubject.next(naps);
+    this.naps.set(naps);
   }
 
-  async deleteNap(napId: string, userId: string): Promise<void> {
-    const napRef = doc(this.firestore, 'naps', napId);
-    await deleteDoc(napRef);
-    await this.loadTodayNaps(userId);
-  }
 
-  async editNap(napId: string, userId: string, startTime: string, endTime?: string): Promise<void> {
-    const napRef = doc(this.firestore, 'naps', napId);
-    
-    await updateDoc(napRef, {
-      startTime: Timestamp.fromDate(new Date(startTime)),
-      endTime: endTime ? Timestamp.fromDate(new Date(endTime)) : null
-    });
-    await this.loadTodayNaps(userId);
-  }
 } 

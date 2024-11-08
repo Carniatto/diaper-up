@@ -15,19 +15,19 @@ import { differenceInHours, differenceInMinutes, parseISO  } from 'date-fns';
 import { toZonedTime, format } from 'date-fns-tz';
 
 @Component({
-  selector: 'app-edit-nap-modal',
+  selector: 'app-nap-modal',
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  templateUrl: './edit-nap-modal.component.html',
-  styleUrls: ['./edit-nap-modal.component.scss']
+  templateUrl: './nap-modal.component.html',
+  styleUrls: ['./nap-modal.component.scss']
 })
-export class EditNapModalComponent implements OnInit {
+export class NapModalComponent implements OnInit {
 
   modalCtrl = inject(ModalController);
 
-  @Input() nap!: Nap;
-  startTime = signal<Date | null>(null);
-  endTime = signal<Date | null>(null);
+  @Input() nap!: Nap<Date>;
+  startTime = signal<Date>(new Date());
+  endTime = signal<Date>(new Date());
 
   duration = computed(() => {
     const start = this.startTime();
@@ -54,12 +54,8 @@ export class EditNapModalComponent implements OnInit {
 
 
   ngOnInit() {
-    const start = new Date(this.nap.startTime);
-    this.startTime.set(start);
-    if (this.nap.endTime) {
-      const end = new Date(this.nap.endTime);
-      this.endTime.set(end);
-    }
+    this.startTime.set(this.nap.startTime);
+    this.endTime.set(this.nap.endTime);
   }
 
   onTimeChange(event: DatetimeCustomEvent, type: 'start' | 'end') {
@@ -82,13 +78,12 @@ export class EditNapModalComponent implements OnInit {
     if (!start || !end) return;
 
     this.modalCtrl.dismiss({
-      startTime: start.toUTCString(),
-      endTime: end.toUTCString()
+      startTime: start,
+      endTime: end
     });
   }
 
-  formatDisplayTime(date: Date | null): string {
-    if (!date) return '';
+  formatDisplayTime(date: Date): string {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const zonedTime = toZonedTime(date, userTimeZone);
     return format(zonedTime, "yyyy-MM-dd'T'HH:mm:ss");
