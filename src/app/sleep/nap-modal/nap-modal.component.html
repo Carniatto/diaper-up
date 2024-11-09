@@ -44,7 +44,7 @@
         <span>End Time</span>
       </div>
       <div class="time-input-wrapper">
-        <ion-datetime-button datetime="endTime" class="time-button"></ion-datetime-button>
+        <ion-datetime-button datetime="endTime" class="time-button" [disabled]="!nap.id"></ion-datetime-button>
       </div>
       <ion-modal [keepContentsMounted]="true">
         <ng-template>

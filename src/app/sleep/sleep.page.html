@@ -90,7 +90,7 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary" (click)="createNap()">
+    <ion-fab-button color="primary" (click)="createNap()" [disabled]="napOngoing()">
       <ion-icon name="bed" />
     </ion-fab-button>
   </ion-fab>

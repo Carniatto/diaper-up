@@ -98,6 +98,12 @@ export class SleepPage implements OnInit {
     return totalNapTime;
   });
 
+  napOngoing = computed(() => {
+    const naps = this.napService.naps();
+    if (!naps?.length) return false;
+    return this.periods().some(period => period.isOngoing);
+  });
+
   constructor() {
     addIcons({ bed, trash, moon, sunny, checkmarkCircle, timeOutline, stopCircle, create });
   }
@@ -155,7 +161,7 @@ export class SleepPage implements OnInit {
       if (userId) {
         await this.napService.create({
           startTime: data.startTime,
-          endTime: data.endTime,
+          endTime: data.startTime,
           user: userId,
           type: data.type
         });
