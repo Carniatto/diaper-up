@@ -9,24 +9,44 @@
     <div class="header-content">
       <ion-icon name="time"></ion-icon>
       <div class="header-text">
-        <h3>Total Nap Time Today</h3>
-        <span class="total-time">{{ totalNapTime() }}</span>
+        <h3>Total Nap</h3>
+        <span class="total-time">{{ totalNapTime().totalNapTime | duration }}</span>
+      </div>
+      <div class="header-text">
+        <h3>Total Sleep</h3>
+        <span class="total-time">{{ totalNapTime().totalSleepTime | duration }}</span>
       </div>
     </div>
   </div>
 
   <div class="card-container">
     @for (period of periods(); track $index) {
-      @if (period.type === 'nap') {
+      @if (period.type === 'wake') {
+        <ion-card class="wake-card">
+          <ion-card-content>
+            <div class="wake-grid">
+              <div class="title-with-icon">
+                <ion-icon name="sunny"></ion-icon>
+                <h2>Awake</h2>
+              </div>
+              <div></div>
+              <div class="wake-duration">
+                {{ period.duration }}
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      }@else {
         <ion-item-sliding #slidingItem>
           <ion-item class="transparent-item">
-            <ion-card class="nap-card">
+            <ion-card [class]="period.type === 'nap' ? 'nap-card' : 'sleep-card'"
+                      (click)="period.isOngoing ? editNap(period, slidingItem) : null">
               <ion-card-content>
                 <div class="card-grid">
                   <div class="card-section title-section">
                     <div class="title-with-icon">
                       <ion-icon name="moon"></ion-icon>
-                      <h2>Nap</h2>
+                      <h2>{{ period.type === 'nap' ? 'Nap' : 'Sleep' }}</h2>
                     </div>
                   </div>
 
@@ -40,8 +60,8 @@
                       <div class="time-point">
                         <ion-icon name="time-outline" size="small"></ion-icon>
                         <span class="label">End:</span>
-                        <span class="time" [class.ongoing]="!period.endTime">
-                          {{ period.endTime ? formatTime(period.endTime) : 'Ongoing' }}
+                        <span class="time" [class.ongoing]="period.isOngoing">
+                          {{ period.isOngoing ? 'Ongoing' : formatTime(period.endTime) }}
                         </span>
                       </div>
                     </div>
@@ -65,21 +85,6 @@
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
-      } @else {
-        <ion-card class="wake-card">
-          <ion-card-content>
-            <div class="wake-grid">
-              <div class="title-with-icon">
-                <ion-icon name="sunny"></ion-icon>
-                <h2>Awake</h2>
-              </div>
-              <div></div>
-              <div class="wake-duration">
-                {{ period.duration }}
-              </div>
-            </div>
-          </ion-card-content>
-        </ion-card>
       }
     }
   </div>

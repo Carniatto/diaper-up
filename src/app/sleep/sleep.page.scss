@@ -7,18 +7,14 @@
 
 ion-card {
   margin: 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
-  overflow: hidden;
 }
 
 .nap-card {
   width: 100%;
-  margin: 0;
   ion-card-content {
     padding: 16px;
     background: #E6E6FA;
-    border-radius: 16px;
   }
 }
 
@@ -26,7 +22,37 @@ ion-card {
   ion-card-content {
     padding: 16px;
     background: #FFE87C;
+  }
+
+  .wake-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 0 16px 0 0;
+  }
+
+  .title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wake-duration {
+    background: #3880ff;
     border-radius: 16px;
+    color: white;
+    padding: 4px 12px;
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+}
+
+.sleep-card {
+  width: 100%;
+  ion-card-content {
+    padding: 16px;
+    background: #ceb3e6;
   }
 }
 
@@ -125,33 +151,6 @@ ion-card {
   justify-content: flex-end;
 }
 
-.wake-card {
-  .wake-grid {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 16px;
-    align-items: center;
-    padding: 0 16px 0 0;
-  }
-
-  .title-with-icon {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .wake-duration {
-    background: #3880ff;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 16px;
-    font-size: 0.9em;
-    font-weight: 500;
-    white-space: nowrap;
-    justify-self: flex-start;
-  }
-}
-
 ion-fab {
   margin: 16px;
 }
@@ -162,16 +161,6 @@ ion-button {
 
   &:active {
     transform: scale(0.95);
-  }
-}
-
-// Add subtle hover effect for cards
-ion-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -219,11 +208,11 @@ ion-item-option {
 }
 
 .header-content {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
   align-items: center;
+  justify-content: center;
   gap: 20px;
-  max-width: 600px;
-  margin: 0 auto;
 
   ion-icon {
     font-size: 32px;

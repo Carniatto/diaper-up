@@ -9,7 +9,8 @@ import {
   sunnyOutline, 
   moonOutline, 
   timeOutline,
-  checkmarkCircle
+  checkmarkCircle,
+  bedOutline
 } from 'ionicons/icons';
 import { differenceInHours, differenceInMinutes, parseISO  } from 'date-fns';
 import { toZonedTime, format } from 'date-fns-tz';
@@ -25,9 +26,11 @@ export class NapModalComponent implements OnInit {
 
   modalCtrl = inject(ModalController);
 
+  @Input() title!: string;
   @Input() nap!: Nap<Date>;
   startTime = signal<Date>(new Date());
   endTime = signal<Date>(new Date());
+  isNightSleep = signal<boolean>(false);
 
   duration = computed(() => {
     const start = this.startTime();
@@ -48,7 +51,8 @@ export class NapModalComponent implements OnInit {
       sunnyOutline, 
       moonOutline, 
       timeOutline,
-      checkmarkCircle
+      checkmarkCircle,
+      bedOutline
     });
   }
 
@@ -56,6 +60,7 @@ export class NapModalComponent implements OnInit {
   ngOnInit() {
     this.startTime.set(this.nap.startTime);
     this.endTime.set(this.nap.endTime);
+    this.isNightSleep.set(this.nap.type === 'sleep');
   }
 
   onTimeChange(event: DatetimeCustomEvent, type: 'start' | 'end') {
@@ -79,7 +84,8 @@ export class NapModalComponent implements OnInit {
 
     this.modalCtrl.dismiss({
       startTime: start,
-      endTime: end
+      endTime: end,
+      type: this.isNightSleep() ? 'sleep' : 'nap'
     });
   }
 
@@ -87,5 +93,10 @@ export class NapModalComponent implements OnInit {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const zonedTime = toZonedTime(date, userTimeZone);
     return format(zonedTime, "yyyy-MM-dd'T'HH:mm:ss");
-  } 
+  }
+
+  onToggleChange(event: any) {
+    this.isNightSleep.set(event.detail.checked);
+  }
+
 } 

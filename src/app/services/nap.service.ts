@@ -8,6 +8,7 @@ export interface Nap<T> {
   startTime: T;
   endTime: T;
   user: string;
+  type: 'nap' | 'sleep';
 }
 
 const napConverter: FirestoreDataConverter<Nap<Date>> = {
@@ -15,7 +16,8 @@ const napConverter: FirestoreDataConverter<Nap<Date>> = {
     return {
       startTime: Timestamp.fromDate(nap.startTime),
       endTime: nap.endTime ? Timestamp.fromDate(nap.endTime) : null,
-      user: nap.user
+      user: nap.user,
+      type: nap.type
     };
   },
   fromFirestore(snapshot: QueryDocumentSnapshot<Nap<Timestamp>>): Nap<Date> {
@@ -24,7 +26,8 @@ const napConverter: FirestoreDataConverter<Nap<Date>> = {
       id: snapshot.id,
       startTime: data.startTime.toDate(),
       endTime: data.endTime.toDate(),
-      user: data.user
+      user: data.user,
+      type: data.type
     };
   }
 };
@@ -82,6 +85,5 @@ export class NapService {
 
     this.naps.set(naps);
   }
-
 
 } 

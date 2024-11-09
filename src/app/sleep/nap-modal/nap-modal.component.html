@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Edit Nap Time</ion-title>
+    <ion-title>{{ title }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()" color="medium">
         <ion-icon name="close" slot="icon-only"></ion-icon>
@@ -61,6 +61,18 @@
         </ng-template>
       </ion-modal>
     </div>
+
+    <div class="divider"></div>
+
+  <div class="toggle-section">
+    <div class="toggle-label">
+      <ion-icon name="bed-outline" size="medium" color="primary"></ion-icon>
+      <span>Night Sleep</span>
+    </div>
+    <div class="toggle-input-wrapper">
+      <ion-toggle [checked]="isNightSleep()" (ionChange)="onToggleChange($event)"></ion-toggle>
+    </div>
+  </div>
   </div>
 
   @if (startTime() && endTime()) {
