@@ -6,11 +6,9 @@
 }
 
 .time-section {
-  margin-bottom: 16px;
   display: grid;
-  grid-template-columns: 160px 1fr;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 16px;
 
   &:last-child {
     margin-bottom: 0;
@@ -52,21 +50,6 @@
   align-items: center;
 }
 
-.next-day-label {
-  font-size: 0.75em;
-  color: var(--ion-color-light-shade);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  background: var(--ion-color-warning);
-  border-radius: 8px;
-  padding: 4px;
-
-  &.visible {
-    opacity: 1;
-  }
-}
-
 .divider {
   height: 1px;
   background: var(--ion-color-light-shade);
@@ -103,12 +86,6 @@
       color: var(--ion-color-danger);
     }
   }
-
-  .next-day {
-    font-size: 0.8em;
-    color: var(--ion-color-medium);
-    margin-left: 8px;
-  }
 }
 
 .save-button {
@@ -128,9 +105,8 @@ ion-datetime {
 }
 
 .toggle-section {
-  margin-bottom: 16px;
   display: grid;
-  grid-template-columns: 160px 1fr;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 16px;
 

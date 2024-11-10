@@ -31,7 +31,7 @@
               </div>
               <div></div>
               <div class="wake-duration">
-                {{ period.duration }}
+                {{ period.duration | duration }}
               </div>
             </div>
           </ion-card-content>
@@ -69,7 +69,7 @@
 
                   <div class="card-section duration-section">
                     @if (period.duration) {
-                      <div class="duration-badge">{{ period.duration }}</div>
+                      <div class="duration-badge">{{ period.duration | duration }}</div>
                     }
                   </div>
                 </div>

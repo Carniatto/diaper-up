@@ -52,7 +52,43 @@ ion-card {
   width: 100%;
   ion-card-content {
     padding: 16px;
-    background: #ceb3e6;
+    background: #353535;
+    color: white;
+  }
+
+  .time {
+    font-weight: 600;
+    color: white;
+    font-size: 1em;
+  
+    &.ongoing {
+      color: #3880ff;
+    }
+  }
+
+  .label {
+    color: #c0bdbd;
+    min-width: 50px;
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+
+  .title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  
+    ion-icon {
+      font-size: 24px;
+      color: #dfdfdf;
+    }
+  
+    h2 {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin: 0;
+      color: #d1d1d1;
+    }
   }
 }
 

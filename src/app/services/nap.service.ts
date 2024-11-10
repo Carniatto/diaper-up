@@ -69,13 +69,14 @@ export class NapService {
       and(
         where('user', '==', userId),
         or(
-          where('startTime', '>=', startOfDayUTC),
-          where('startTime', '<=', endOfDayUTC)
-        ),
-        or(
-          where('endTime', '>=', startOfDayUTC),
-          where('endTime', '<=', endOfDayUTC),
-          where('endTime', '==', null)
+          and(
+            where('startTime', '>=', Timestamp.fromDate(startOfDayUTC)),
+            where('startTime', '<=', Timestamp.fromDate(endOfDayUTC))
+          ),
+          and(
+            where('endTime', '>=', Timestamp.fromDate(startOfDayUTC)),
+            where('endTime', '<=', Timestamp.fromDate(endOfDayUTC))
+          )
         )
       ),
       orderBy('startTime', 'desc')
