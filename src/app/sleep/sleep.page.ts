@@ -45,7 +45,7 @@ export class SleepPage implements OnInit {
   userService = inject(UserService);
   modalCtrl = inject(ModalController);
 
-  currentDate = toSignal(interval(60000).pipe(map(() => new Date())), {
+  currentDate = toSignal(interval(60001).pipe(map(() => new Date())), {
     initialValue: new Date(),
   });
 
@@ -58,16 +58,17 @@ export class SleepPage implements OnInit {
 
     for (let i = 0; i < naps.length; i++) {
       const currentNap = naps[i];
-
+      const isOngoing = currentNap.startTime.getTime() === currentNap.endTime.getTime();
       periods.push({
         type: currentNap.type,
         startTime: currentNap.startTime,
         endTime: currentNap.endTime,
-        duration: differenceInMinutes(currentNap.endTime, currentNap.startTime),
+        duration: isOngoing
+          ? differenceInMinutes(this.currentDate(), currentNap.startTime)
+          : differenceInMinutes(currentNap.endTime, currentNap.startTime),
         id: currentNap.id,
         tomorrow: isAfter(currentNap.startTime, todayMidDay),
-        isOngoing:
-          currentNap.startTime.getTime() === currentNap.endTime.getTime(),
+        isOngoing,
       });
 
       if (i < naps.length - 1 && currentNap.endTime) {
