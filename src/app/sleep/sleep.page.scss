@@ -20,16 +20,14 @@ ion-card {
 
 .wake-card {
   ion-card-content {
-    padding: 16px;
+    padding: 8px 16px;
     background: #FFE87C;
   }
 
   .wake-grid {
     display: grid;
     grid-template-columns: auto 1fr auto;
-    gap: 16px;
     align-items: center;
-    padding: 0 16px 0 0;
   }
 
   .title-with-icon {
@@ -52,8 +50,25 @@ ion-card {
   width: 100%;
   ion-card-content {
     padding: 16px;
-    background: #353535;
     color: white;
+    background: #353535;
+
+    &.tomorrow {
+      background: none;
+      background-image: linear-gradient(45deg, 
+        transparent 5%, #353535 10%,
+        transparent 10%, #353535 20%,
+        transparent 20%, #353535 30%,
+        transparent 30%, #353535 40%,
+        transparent 40%, #353535 50%,
+        transparent 50%, #353535 60%,
+        transparent 60%, #353535 70%,
+        transparent 70%, #353535 80%,
+        transparent 80%, #353535 90%,
+        transparent 90%, #353535 100%);
+      background-repeat: repeat;
+      background-size: 400px 400px;
+    }
   }
 
   .time {
@@ -68,8 +83,7 @@ ion-card {
 
   .label {
     color: #c0bdbd;
-    min-width: 50px;
-    font-size: 0.9em;
+    font-size: 1em;
     font-weight: 500;
   }
 
@@ -95,7 +109,7 @@ ion-card {
 .card-grid {
   display: grid;
   grid-template-rows: auto auto;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto auto auto;
   gap: 16px;
 }
 
@@ -143,14 +157,13 @@ ion-card {
 .time-point {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-width: 140px;
+  gap: 4px;
+
 }
 
 .label {
   color: #4a4a4a;
-  min-width: 50px;
-  font-size: 0.9em;
+  font-size: 1em;
   font-weight: 500;
 }
 
@@ -189,21 +202,6 @@ ion-card {
 
 ion-fab {
   margin: 16px;
-}
-
-// Add subtle animation for buttons
-ion-button {
-  transition: transform 0.2s ease;
-
-  &:active {
-    transform: scale(0.95);
-  }
-}
-
-// Add these new styles
-ion-item-sliding {
-  background: transparent;
-  --background: transparent;
 }
 
 .transparent-item {

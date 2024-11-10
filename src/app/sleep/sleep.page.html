@@ -39,9 +39,9 @@
       }@else {
         <ion-item-sliding #slidingItem>
           <ion-item class="transparent-item">
-            <ion-card [class]="period.type === 'nap' ? 'nap-card' : 'sleep-card'"
+            <ion-card [class]="{'nap-card': period.type === 'nap', 'sleep-card': period.type === 'sleep'}" 
                       (click)="period.isOngoing ? editNap(period, slidingItem) : null">
-              <ion-card-content>
+              <ion-card-content [class.tomorrow]="period.tomorrow">
                 <div class="card-grid">
                   <div class="card-section title-section">
                     <div class="title-with-icon">

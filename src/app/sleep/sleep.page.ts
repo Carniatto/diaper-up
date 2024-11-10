@@ -18,7 +18,7 @@ import { computed } from '@angular/core';
 import { NapModalComponent } from './nap-modal/nap-modal.component';
 import { differenceInMinutes } from 'date-fns/differenceInMinutes';
 import { differenceInHours } from 'date-fns/differenceInHours';
-import { format, isBefore, set, setHours } from 'date-fns';
+import { format, isAfter, isBefore, set, setHours } from 'date-fns';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { interval, map } from 'rxjs';
 import { DurationPipe } from '../pipes/duration.pipe';
@@ -29,6 +29,7 @@ export interface NapPeriod {
   endTime: Date;
   duration: number;
   isOngoing?: boolean;
+  tomorrow?: boolean;
   id?: string;
 }
 
@@ -52,6 +53,7 @@ export class SleepPage implements OnInit {
     const naps = this.napService.naps();
     if (!naps?.length) return [];
 
+    const todayMidDay = set(new Date(), { hours: 12, minutes: 0 });
     const periods: NapPeriod[] = [];
 
     for (let i = 0; i < naps.length; i++) {
@@ -63,6 +65,7 @@ export class SleepPage implements OnInit {
         endTime: currentNap.endTime,
         duration: differenceInMinutes(currentNap.endTime, currentNap.startTime),
         id: currentNap.id,
+        tomorrow: isAfter(currentNap.startTime, todayMidDay),
         isOngoing:
           currentNap.startTime.getTime() === currentNap.endTime.getTime(),
       });
@@ -87,7 +90,7 @@ export class SleepPage implements OnInit {
         type: 'wake',
         startTime: naps[0].endTime,
         endTime: this.currentDate(),
-        duration: differenceInMinutes(naps[0].endTime, this.currentDate()),
+        duration: differenceInMinutes(this.currentDate(), naps[0].endTime),
       };
       periods.unshift(wakePeriod);
     }
