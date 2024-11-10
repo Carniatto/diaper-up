@@ -105,7 +105,11 @@ export class HomePage {
   }
 
   async linkUser(link: string) {
-    this.userservice.saveLink(link);
+    if (link.startsWith('XYYQ#')) {
+      localStorage.setItem('user', link.split('#')[1]);
+    } else {
+      this.userservice.saveLink(link);
+    }
     await this.modalController.dismiss();
   }
 
