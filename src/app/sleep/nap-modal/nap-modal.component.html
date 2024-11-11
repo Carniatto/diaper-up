@@ -36,6 +36,7 @@
       </ion-modal>
     </div>
 
+    @if (nap.id) {
     <div class="divider"></div>
 
     <div class="time-section">
@@ -44,11 +45,11 @@
         <span>End Time</span>
       </div>
       <div class="time-input-wrapper">
-        <ion-datetime-button datetime="endTime" class="time-button" [disabled]="!nap.id"></ion-datetime-button>
-      </div>
-      <ion-modal [keepContentsMounted]="true">
-        <ng-template>
-          <ion-datetime 
+          <ion-datetime-button datetime="endTime" class="time-button"></ion-datetime-button>
+        </div>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime 
             id="endTime"
             [value]="formatDisplayTime(endTime())"
             presentation="date-time"
@@ -60,7 +61,8 @@
           </ion-datetime>
         </ng-template>
       </ion-modal>
-    </div>
+      </div>
+    }
 
     <div class="divider"></div>
 
