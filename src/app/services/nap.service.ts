@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Firestore, collection, addDoc, updateDoc, doc, Timestamp, deleteDoc, query, where, or, and, orderBy, getDocs, FirestoreDataConverter, DocumentData, QueryDocumentSnapshot } from '@angular/fire/firestore';
-import { endOfDay, startOfDay } from 'date-fns';
+import { endOfDay, startOfDay, subHours } from 'date-fns';
 import { UserService } from './user.service';
 
 export interface Nap<T> {
@@ -63,6 +63,7 @@ export class NapService {
   async loadTodayNaps(userId: string): Promise<void> {
     const startOfDayUTC = startOfDay(new Date());
     const endOfDayUTC = endOfDay(new Date());
+    const yesterdayAfternoon = subHours(startOfDayUTC, 12);
     
     const q = query(
       this.napsCollection,
@@ -76,6 +77,10 @@ export class NapService {
           and(
             where('endTime', '>=', Timestamp.fromDate(startOfDayUTC)),
             where('endTime', '<=', Timestamp.fromDate(endOfDayUTC))
+          ),
+          and(
+            where('type', '==', 'sleep'),
+            where('startTime', '>=', Timestamp.fromDate(yesterdayAfternoon)),
           )
         )
       ),
