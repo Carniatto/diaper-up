@@ -12,6 +12,8 @@ import {
   timeOutline,
   stopCircle,
   create,
+  time,
+  arrowDown,
 } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { computed } from '@angular/core';
@@ -134,6 +136,8 @@ export class SleepPage implements OnInit {
       timeOutline,
       stopCircle,
       create,
+      time,
+      arrowDown,
     });
   }
 
@@ -227,5 +231,13 @@ export class SleepPage implements OnInit {
         });
       }
     }
+  }
+
+  async doRefresh(event: any) {
+    const userId = this.userService.currentUser();
+    if (userId) {
+      await this.napService.loadTodayNaps(userId);
+    }
+    event.target.complete();
   }
 }
