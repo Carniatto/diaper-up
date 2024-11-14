@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, orderBy, query, Timestamp, updateDoc, where } from '@angular/fire/firestore';
 import { startOfDay, subDays } from 'date-fns';
-import { map, switchMap, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { UserService } from './user.service';
 
 type DiaperRoutine = {
@@ -37,6 +37,10 @@ export class RoutineService {
             orderBy('timestamp')
           ), { idField: 'id' }
         ).pipe(
+          catchError(error => {
+            console.error(error.code);
+            return of([]);
+          }),
           tap(routines => console.log('routines', routines)),
           map(routines => routines.map(r => ({
             ...r,

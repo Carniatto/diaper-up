@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ModalController, IonItemSliding } from '@ionic/angular';
+import { IonicModule, ModalController, IonItemSliding, DatetimeCustomEvent } from '@ionic/angular';
 import { NapService, Nap } from '../services/nap.service';
 import { UserService } from '../services/user.service';
 import {
@@ -20,10 +20,11 @@ import { computed } from '@angular/core';
 import { NapModalComponent } from './nap-modal/nap-modal.component';
 import { differenceInMinutes } from 'date-fns/differenceInMinutes';
 import { differenceInHours } from 'date-fns/differenceInHours';
-import { format, isAfter, isBefore, set, setHours } from 'date-fns';
+import { endOfDay, format, isAfter, isBefore, parseISO, set, setHours } from 'date-fns';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { interval, map } from 'rxjs';
 import { DurationPipe } from '../pipes/duration.pipe';
+import { toZonedTime } from 'date-fns-tz';
 
 export interface NapPeriod {
   type: 'nap' | 'sleep' | 'wake';
@@ -47,7 +48,9 @@ export class SleepPage implements OnInit {
   userService = inject(UserService);
   modalCtrl = inject(ModalController);
 
-  currentDate = toSignal(interval(60001).pipe(map(() => new Date())), {
+  selectedDate = signal(new Date());
+
+  now = toSignal(interval(60001).pipe(map(() => new Date())), {
     initialValue: new Date(),
   });
 
@@ -66,7 +69,7 @@ export class SleepPage implements OnInit {
         startTime: currentNap.startTime,
         endTime: currentNap.endTime,
         duration: isOngoing
-          ? differenceInMinutes(this.currentDate(), currentNap.startTime)
+          ? differenceInMinutes(this.now(), currentNap.startTime)
           : differenceInMinutes(currentNap.endTime, currentNap.startTime),
         id: currentNap.id,
         tomorrow: isAfter(currentNap.startTime, todayMidDay),
@@ -87,13 +90,14 @@ export class SleepPage implements OnInit {
 
     if (
       naps.length > 0 &&
-      naps[0].startTime.getTime() !== naps[0].endTime.getTime()
+      naps[0].startTime.getTime() !== naps[0].endTime.getTime() &&
+      isBefore(this.now(), this.selectedDate())
     ) {
       const wakePeriod: NapPeriod = {
         type: 'wake',
         startTime: naps[0].endTime,
-        endTime: this.currentDate(),
-        duration: differenceInMinutes(this.currentDate(), naps[0].endTime),
+        endTime: this.now(),
+        duration: differenceInMinutes(this.now(), naps[0].endTime),
       };
       periods.unshift(wakePeriod);
     }
@@ -159,10 +163,7 @@ export class SleepPage implements OnInit {
   }
 
   async loadNaps() {
-    const userId = this.userService.currentUser();
-    if (userId) {
-      await this.napService.loadTodayNaps(userId);
-    }
+    await this.napService.loadTodayNaps();
   }
 
   async removeNap(napId: string, slidingItem: IonItemSliding) {
@@ -234,10 +235,23 @@ export class SleepPage implements OnInit {
   }
 
   async doRefresh(event: any) {
-    const userId = this.userService.currentUser();
-    if (userId) {
-      await this.napService.loadTodayNaps(userId);
-    }
+    await this.napService.loadTodayNaps();
     event.target.complete();
   }
+
+  onDateChange(date: string | string[] | undefined | null) {
+    if (typeof date === 'string') {
+      const parsedDate = set(parseISO(date), { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
+      this.selectedDate.set(parsedDate);
+      this.napService.loadTodayNaps(parsedDate);
+      console.log(parsedDate);
+    }
+  }
+
+  formatDisplayTime(date: Date): string {
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const zonedTime = toZonedTime(date, userTimeZone);
+    return format(zonedTime, "yyyy-MM-dd'T'HH:mm:ss");
+  }
+
 }

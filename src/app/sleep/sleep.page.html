@@ -16,7 +16,22 @@
 
   <div class="total-nap-header">
     <div class="header-content">
-      <ion-icon name="time"></ion-icon>
+      <div class="date-picker-wrapper">
+        <ion-datetime-button datetime="currentDate" class="date-button"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime #currentDate
+              id="currentDate"
+              presentation="date"
+              [preferWheel]="true"
+              [showDefaultButtons]="false"
+              hourCycle="h23"
+              [max]="formatDisplayTime(now())"
+              (ionBlur)="onDateChange(currentDate.value)">
+            </ion-datetime>
+        </ng-template>
+      </ion-modal>
+      </div>
       <div class="header-text">
         <h3>Total Nap</h3>
         <span class="total-time">{{ totalNapTime().totalNapTime | duration }}</span>
