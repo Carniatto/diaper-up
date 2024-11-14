@@ -20,7 +20,7 @@ import { computed } from '@angular/core';
 import { NapModalComponent } from './nap-modal/nap-modal.component';
 import { differenceInMinutes } from 'date-fns/differenceInMinutes';
 import { differenceInHours } from 'date-fns/differenceInHours';
-import { endOfDay, format, isAfter, isBefore, parseISO, set, setHours } from 'date-fns';
+import { endOfDay, format, isAfter, isBefore, parseISO, set, startOfDay } from 'date-fns';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { interval, map } from 'rxjs';
 import { DurationPipe } from '../pipes/duration.pipe';
@@ -91,7 +91,7 @@ export class SleepPage implements OnInit {
     if (
       naps.length > 0 &&
       naps[0].startTime.getTime() !== naps[0].endTime.getTime() &&
-      isBefore(this.now(), this.selectedDate())
+      isBefore(startOfDay(this.now()), endOfDay(this.selectedDate()))
     ) {
       const wakePeriod: NapPeriod = {
         type: 'wake',
@@ -241,7 +241,7 @@ export class SleepPage implements OnInit {
 
   onDateChange(date: string | string[] | undefined | null) {
     if (typeof date === 'string') {
-      const parsedDate = set(parseISO(date), { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
+      const parsedDate = parseISO(date);
       this.selectedDate.set(parsedDate);
       this.napService.loadTodayNaps(parsedDate);
       console.log(parsedDate);
