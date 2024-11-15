@@ -58,7 +58,7 @@ export class SleepPage implements OnInit {
     const naps = this.napService.naps();
     if (!naps?.length) return [];
 
-    const todayMidDay = set(new Date(), { hours: 12, minutes: 0 });
+    const todayMidDay = set(this.selectedDate(), { hours: 12, minutes: 0 });
     const periods: NapPeriod[] = [];
 
     for (let i = 0; i < naps.length; i++) {

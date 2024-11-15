@@ -251,14 +251,21 @@ ion-item-option {
   justify-content: center;
   gap: 20px;
 
-  ion-icon {
-    font-size: 32px;
+  ::ng-deep .date-button {
+
     color: var(--ion-color-primary);
     background: rgba(255, 255, 255, 0.1);
-    padding: 12px;
-    border-radius: 12px;
+    border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    button {
+      font-size: 48px;
+      width: 80px;
+      height: 80px;
+      padding: 0;
+    }
   }
+
 }
 
 .header-text {

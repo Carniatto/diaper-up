@@ -17,20 +17,24 @@
   <div class="total-nap-header">
     <div class="header-content">
       <div class="date-picker-wrapper">
-        <ion-datetime-button datetime="currentDate" class="date-button"></ion-datetime-button>
+        <ion-datetime-button datetime="currentDate" class="date-button" />
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
             <ion-datetime #currentDate
               id="currentDate"
               presentation="date"
               [preferWheel]="true"
-              [showDefaultButtons]="false"
               hourCycle="h23"
-              [max]="formatDisplayTime(now())"
-              (ionBlur)="onDateChange(currentDate.value)">
+              [formatOptions]="{date: { day: '2-digit', month: 'short', year: 'numeric'}}"
+              [max]="formatDisplayTime(now())">
+              <ion-buttons slot="buttons">
+                <ion-button (click)="currentDate.confirm(true); onDateChange(currentDate.value)">
+                  Done
+                </ion-button>
+              </ion-buttons>
             </ion-datetime>
         </ng-template>
-      </ion-modal>
+        </ion-modal>
       </div>
       <div class="header-text">
         <h3>Total Nap</h3>
