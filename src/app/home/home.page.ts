@@ -1,21 +1,20 @@
+import { DatePipe } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonFooter, IonButtons, IonIcon, IonModal, IonInput } from '@ionic/angular/standalone';
+import { IonButton, IonButtons, IonContent, IonFooter, IonHeader, IonIcon, IonInput, IonModal, IonTitle, IonToolbar, ModalController } from '@ionic/angular/standalone';
+import { formatDistance } from 'date-fns';
+import { addIcons } from 'ionicons';
+import { copy, link, time } from 'ionicons/icons';
+import { BottleAmountImageComponent } from "../components/bottle-amount-image.component";
 import { RoutineService } from '../services/routine-service';
 import { UserService } from '../services/user.service';
-import { copy, link, time } from 'ionicons/icons';
-import { addIcons } from 'ionicons';
-import { DatePipe } from '@angular/common';
-import { formatDistance, formatRelative } from 'date-fns';
-import { ModalController } from '@ionic/angular/standalone';
-import { BottleAmountImageComponent } from "../components/bottle-amount-image.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonInput, IonModal, IonIcon, IonButtons, IonFooter, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, RouterLink, DatePipe, BottleAmountImageComponent],
+  imports: [IonInput, IonModal, IonIcon, IonButtons, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, RouterLink, DatePipe],
 })
 export class HomePage {
   routineService = inject(RoutineService);

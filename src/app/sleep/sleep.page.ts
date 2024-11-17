@@ -58,7 +58,7 @@ export class SleepPage implements OnInit {
     const naps = this.napService.naps();
     if (!naps?.length) return [];
 
-    const todayMidDay = set(this.selectedDate(), { hours: 12, minutes: 0 });
+    const currentDayMidDay = set(this.selectedDate(), { hours: 12, minutes: 0 });
     const periods: NapPeriod[] = [];
 
     for (let i = 0; i < naps.length; i++) {
@@ -72,7 +72,7 @@ export class SleepPage implements OnInit {
           ? differenceInMinutes(this.now(), currentNap.startTime)
           : differenceInMinutes(currentNap.endTime, currentNap.startTime),
         id: currentNap.id,
-        tomorrow: isAfter(currentNap.startTime, todayMidDay),
+        tomorrow: isAfter(currentNap.startTime, currentDayMidDay),
         isOngoing,
       });
 
@@ -108,12 +108,12 @@ export class SleepPage implements OnInit {
   totalNapTime = computed(() => {
     const naps = this.napService.naps();
     if (!naps?.length) return { totalNapTime: 0, totalSleepTime: 0 };
-    const todayMidDay = set(new Date(), { hours: 12, minutes: 0 });
+    const currentDayMidDay = set(this.selectedDate(), { hours: 12, minutes: 0 });
     const totalNapTime = naps.reduce(
       (acc, nap) => {
         if (nap.type === 'nap') {
           acc.totalNapTime += differenceInMinutes(nap.endTime, nap.startTime);
-        } else if (isBefore(nap.startTime, todayMidDay)) {
+        } else if (isBefore(nap.startTime, currentDayMidDay)) {
           acc.totalSleepTime += differenceInMinutes(nap.endTime, nap.startTime);
         }
         return acc;
