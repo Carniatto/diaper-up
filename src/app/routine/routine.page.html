@@ -36,14 +36,14 @@
     <app-slider-button
       [(value)]="bottleAmount"
       [rangeConfigs]="[
-        { max: 30, icon: 'assets/svg/bottle-empty.svg' },
-        { min: 30, max: 90, icon: 'assets/svg/bottle-quarter.svg' },
-        { min: 90, max: 130, icon: 'assets/svg/bottle-half.svg' },
-        { min: 130, max: 170, icon: 'assets/svg/bottle-threequarter.svg' },
-        { min: 170, max: 200, icon: 'assets/svg/bottle-full.svg' }
+        { max: 100, icon: 'assets/svg/bottle-empty.svg' },
+        { min: 100, max: 150, icon: 'assets/svg/bottle-quarter.svg' },
+        { min: 150, max: 200, icon: 'assets/svg/bottle-half.svg' },
+        { min: 200, max: 250, icon: 'assets/svg/bottle-threequarter.svg' },
+        { min: 250, max: 300, icon: 'assets/svg/bottle-full.svg' }
       ]"
       [defaultIcon]="'assets/svg/bottle-empty.svg'"
-      [defaultValue]="100"
+      [defaultValue]="200"
       unit="ml"
       [step]="10"
     />
