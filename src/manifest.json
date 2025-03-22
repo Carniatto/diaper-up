@@ -1,0 +1,17 @@
+{
+  "name": "Diaper Up",
+  "icons": [
+    {
+      "src": "icons/diaper-up-icon-512px.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "icons/diaper-up-icon-192px.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    } 
+  ],
+  "start_url": "/home",
+  "display": "standalone"
+}
