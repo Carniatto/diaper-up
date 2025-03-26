@@ -1,21 +1,20 @@
-import { IonPopover } from '@ionic/angular/standalone';
-import { RoutineService } from '../services/routine-service';
-import { Component, OnInit, computed, inject, input, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, inject, input, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonLabel, IonItem, IonCheckbox, IonButtons, IonIcon, IonModal, IonDatetimeButton, IonDatetime } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { IonButton, IonButtons, IonContent, IonDatetime, IonDatetimeButton, IonHeader, IonIcon, IonModal, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { parseISO } from 'date-fns';
 import { addIcons } from 'ionicons';
 import { close, save } from "ionicons/icons";
-import { Router } from '@angular/router';
-import { format, parseISO } from 'date-fns';
 import { SelectButtonComponent } from "../select-button/select-button.component";
+import { RoutineService } from '../services/routine-service';
 import { SliderButtonComponent } from "../slider-button/slider-button.component";
 
 @Component({
     selector: 'app-routine',
     templateUrl: './routine.page.html',
     styleUrls: ['./routine.page.scss'],
-    imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, SelectButtonComponent, SliderButtonComponent]
+    imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, SelectButtonComponent, SliderButtonComponent]
 })
 export class RoutinePage {
 

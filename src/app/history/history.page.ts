@@ -1,20 +1,20 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonList, IonButton, IonIcon } from '@ionic/angular/standalone';
-import { RoutineService } from '../services/routine-service';
-import { addDays, differenceInDays, endOfDay, format, formatDistanceToNow, formatRelative, startOfDay, subDays } from 'date-fns';
-import { arrowBack, arrowForward, trash } from 'ionicons/icons';
+import { IonButton, IonContent, IonHeader, IonIcon, IonItem, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { addDays, differenceInDays, endOfDay, format, formatRelative, startOfDay, subDays } from 'date-fns';
 import { addIcons } from 'ionicons';
+import { arrowBack, arrowForward, trash } from 'ionicons/icons';
+import { BottleAmountImageComponent } from "../components/bottle-amount-image.component";
 import { PeeAmountImageComponent } from "../components/pee-amount-image.component";
 import { PooAmountImageComponent } from "../components/poo-amount-image.component";
-import { BottleAmountImageComponent } from "../components/bottle-amount-image.component";
+import { RoutineService } from '../services/routine-service';
 
 @Component({
     selector: 'app-history',
     templateUrl: './history.page.html',
     styleUrls: ['./history.page.scss'],
-    imports: [IonIcon, IonButton, IonList, IonLabel, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, PeeAmountImageComponent, PooAmountImageComponent, BottleAmountImageComponent]
+    imports: [IonIcon, IonButton, IonList, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, PeeAmountImageComponent, PooAmountImageComponent, BottleAmountImageComponent]
 })
 export class HistoryPage {
   routineService = inject(RoutineService);
