@@ -11,11 +11,10 @@ import { PooAmountImageComponent } from "../components/poo-amount-image.componen
 import { BottleAmountImageComponent } from "../components/bottle-amount-image.component";
 
 @Component({
-  selector: 'app-history',
-  templateUrl: './history.page.html',
-  styleUrls: ['./history.page.scss'],
-  standalone: true,
-  imports: [IonIcon, IonButton, IonList, IonLabel, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, PeeAmountImageComponent, PooAmountImageComponent, BottleAmountImageComponent]
+    selector: 'app-history',
+    templateUrl: './history.page.html',
+    styleUrls: ['./history.page.scss'],
+    imports: [IonIcon, IonButton, IonList, IonLabel, IonItem, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, PeeAmountImageComponent, PooAmountImageComponent, BottleAmountImageComponent]
 })
 export class HistoryPage {
   routineService = inject(RoutineService);

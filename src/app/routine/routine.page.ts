@@ -12,11 +12,10 @@ import { SelectButtonComponent } from "../select-button/select-button.component"
 import { SliderButtonComponent } from "../slider-button/slider-button.component";
 
 @Component({
-  selector: 'app-routine',
-  templateUrl: './routine.page.html',
-  styleUrls: ['./routine.page.scss'],
-  standalone: true,
-  imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, SelectButtonComponent, SliderButtonComponent],
+    selector: 'app-routine',
+    templateUrl: './routine.page.html',
+    styleUrls: ['./routine.page.scss'],
+    imports: [IonDatetime, IonDatetimeButton, IonModal, IonIcon, IonButtons, IonCheckbox, IonItem, IonLabel, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, SelectButtonComponent, SliderButtonComponent]
 })
 export class RoutinePage {
 

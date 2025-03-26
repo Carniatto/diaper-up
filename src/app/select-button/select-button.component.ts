@@ -8,11 +8,10 @@ type ButtonDescriptor = {
 }
 
 @Component({
-  selector: 'app-select-button',
-  templateUrl: './select-button.component.html',
-  styleUrls: ['./select-button.component.scss'],
-  imports: [IonButton],
-  standalone: true,
+    selector: 'app-select-button',
+    templateUrl: './select-button.component.html',
+    styleUrls: ['./select-button.component.scss'],
+    imports: [IonButton]
 })
 export class SelectButtonComponent {
   selected = signal<number>(0);

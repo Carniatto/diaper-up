@@ -10,11 +10,10 @@ import { RoutineService } from '../services/routine-service';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-  standalone: true,
-  imports: [IonInput, IonModal, IonIcon, IonButtons, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, RouterLink, DatePipe],
+    selector: 'app-home',
+    templateUrl: 'home.page.html',
+    styleUrls: ['home.page.scss'],
+    imports: [IonInput, IonModal, IonIcon, IonButtons, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, RouterLink, DatePipe]
 })
 export class HomePage {
   routineService = inject(RoutineService);

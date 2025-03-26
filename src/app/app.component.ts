@@ -7,10 +7,9 @@ import { collection, collectionData, Firestore } from '@angular/fire/firestore';
 import { UserService } from './services/user.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html',
-  standalone: true,
-  imports: [IonContent, IonApp, IonRouterOutlet, JsonPipe],
+    selector: 'app-root',
+    templateUrl: 'app.component.html',
+    imports: [IonContent, IonApp, IonRouterOutlet, JsonPipe]
 })
 export class AppComponent {
   constructor() {

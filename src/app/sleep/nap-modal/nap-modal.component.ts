@@ -16,11 +16,10 @@ import { differenceInHours, differenceInMinutes, parseISO  } from 'date-fns';
 import { toZonedTime, format } from 'date-fns-tz';
 
 @Component({
-  selector: 'app-nap-modal',
-  standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
-  templateUrl: './nap-modal.component.html',
-  styleUrls: ['./nap-modal.component.scss']
+    selector: 'app-nap-modal',
+    imports: [IonicModule, CommonModule, FormsModule],
+    templateUrl: './nap-modal.component.html',
+    styleUrls: ['./nap-modal.component.scss']
 })
 export class NapModalComponent implements OnInit {
 

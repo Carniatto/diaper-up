@@ -4,11 +4,10 @@ import { addIcons } from 'ionicons';
 import { cloudyNight, home, time } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-tabs',
-  templateUrl: './tabs.component.html',
-  styleUrls: ['./tabs.component.scss'],
-  standalone: true,
-  imports: [IonIcon, IonTabButton, IonTabs, IonTabBar]
+    selector: 'app-tabs',
+    templateUrl: './tabs.component.html',
+    styleUrls: ['./tabs.component.scss'],
+    imports: [IonIcon, IonTabButton, IonTabs, IonTabBar]
 })
 export class TabsComponent {
 

@@ -37,11 +37,10 @@ export interface NapPeriod {
 }
 
 @Component({
-  selector: 'app-sleep',
-  standalone: true,
-  imports: [IonicModule, CommonModule, DurationPipe],
-  templateUrl: './sleep.page.html',
-  styleUrls: ['./sleep.page.scss'],
+    selector: 'app-sleep',
+    imports: [IonicModule, CommonModule, DurationPipe],
+    templateUrl: './sleep.page.html',
+    styleUrls: ['./sleep.page.scss']
 })
 export class SleepPage implements OnInit {
   napService = inject(NapService);

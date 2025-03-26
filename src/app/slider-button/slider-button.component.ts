@@ -8,11 +8,10 @@ interface RangeConfig {
 }
 
 @Component({
-  selector: 'app-slider-button',
-  templateUrl: './slider-button.component.html',
-  styleUrls: ['./slider-button.component.scss'],
-  imports: [IonRange, IonContent, IonPopover, IonButton],
-  standalone: true,
+    selector: 'app-slider-button',
+    templateUrl: './slider-button.component.html',
+    styleUrls: ['./slider-button.component.scss'],
+    imports: [IonRange, IonContent, IonPopover, IonButton]
 })
 export class SliderButtonComponent {
   destroyRef = inject(DestroyRef);
